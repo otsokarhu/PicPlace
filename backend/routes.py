@@ -8,7 +8,7 @@ from db import db
 def index():
   return 'Hello world'
 
-@app.route("/api/register", methods=['POST', 'GET'])
+@app.route("/api/register", methods=['POST'])
 def register():
   if request.method == "POST":
     data = request.get_json()
@@ -31,8 +31,7 @@ def register():
 
     return jsonify({"msg": "Registration successful"}), 200
 
-  if request.method == "GET":
-    return 'Therve'
+  
 
 @app.route("/api/login", methods=["POST"])
 def login():
