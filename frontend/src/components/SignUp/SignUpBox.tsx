@@ -16,6 +16,9 @@ import { useState } from 'react';
 const SignUpBox = () => {
   const toast = useToast();
   const [showPassword, setShowPassword] = useState(false);
+  const [showconfirmPassword, setShowconfirmPassword] = useState(false);
+  const [showAdminPassword, setShowAdminPassword] = useState(false);
+  const [showAdminInput, setShowAdminInput] = useState(false);
 
   const handleSignUp = () => {
     toast({
@@ -32,7 +35,8 @@ const SignUpBox = () => {
       initialValues={{
         username: '',
         password: '',
-        passwordConfirm: '',
+        confirmPassword: '',
+        adminPassword: '',
       }}
       onSubmit={handleSignUp}
       validationSchema={SignUpSchema}
@@ -80,31 +84,73 @@ const SignUpBox = () => {
               </InputGroup>
               {errors.password && touched.password && <p>{errors.password}</p>}
             </FormControl>
-            <FormControl id="passwordConfirm">
+            <FormControl id="confirmPassword">
               <FormLabel>Confirm Password</FormLabel>
               <InputGroup>
                 <Input
-                  type={showPassword ? 'text' : 'password'}
-                  name="passwordConfirm"
+                  type={showconfirmPassword ? 'text' : 'password'}
+                  name="confirmPassword"
                   onChange={handleChange}
-                  value={values.passwordConfirm}
+                  value={values.confirmPassword}
                   placeholder="Confirm Password"
                 />
                 <InputRightElement width="4.5rem">
                   <Button
                     variant={'icon'}
                     onClick={() =>
-                      setShowPassword((showPassword) => !showPassword)
+                      setShowconfirmPassword(
+                        (showconfirmPassword) => !showconfirmPassword
+                      )
                     }
                   >
-                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                    {showconfirmPassword ? <ViewIcon /> : <ViewOffIcon />}
                   </Button>
                 </InputRightElement>
               </InputGroup>
-              {errors.passwordConfirm && touched.passwordConfirm && (
-                <p>{errors.passwordConfirm}</p>
+              {errors.confirmPassword && touched.confirmPassword && (
+                <p>{errors.confirmPassword}</p>
               )}
             </FormControl>
+            <Button
+              variant={'outline'}
+              mt={4}
+              w={'full'}
+              onClick={() =>
+                setShowAdminInput((showAdminInput) => !showAdminInput)
+              }
+            >
+              Want to be an admin?
+            </Button>
+            {showAdminInput && (
+              <FormControl id="adminPassword">
+                <FormLabel>Give Admin-code</FormLabel>
+                <InputGroup>
+                  <Input
+                    type={showAdminPassword ? 'text' : 'password'}
+                    name="adminPassword"
+                    onChange={handleChange}
+                    value={values.adminPassword}
+                    placeholder="Admin-code"
+                  />
+                  <InputRightElement width="4.5rem">
+                    <Button
+                      variant={'icon'}
+                      onClick={() =>
+                        setShowAdminPassword(
+                          (showAdminPassword) => !showAdminPassword
+                        )
+                      }
+                    >
+                      {showconfirmPassword ? <ViewIcon /> : <ViewOffIcon />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+                {errors.adminPassword && touched.adminPassword && (
+                  <p>{errors.adminPassword}</p>
+                )}
+              </FormControl>
+            )}
+
             <Button
               type="submit"
               colorScheme="teal"

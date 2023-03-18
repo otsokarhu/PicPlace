@@ -29,7 +29,7 @@ def register(username, password, admin):
 
 def login(username, password):
  
-  sql = text("SELECT id, password, admin FROM users WHERE username=:username")
+  sql = text("SELECT id, password, admin, username FROM users WHERE username=:username")
   result = db.session.execute(sql, {"username": username})
   user = result.fetchone()
   if not user:
@@ -40,8 +40,12 @@ def login(username, password):
       return jsonify({"msg": "Incorrect username or password"}), 401
 
     access_token = create_access_token(identity=username)
+    admin = user[2]
+    id = user[0]
+    username = user[3]
     
-    return jsonify(access_token=access_token)
+    
+    return jsonify(access_token=access_token, admin=admin, username=username, id=id), 200
 
 def protected():
   current_user = get_jwt_identity()

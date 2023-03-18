@@ -2,6 +2,8 @@ import Home from './components/Home';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Box, useColorModeValue } from '@chakra-ui/react';
 import NavBar from './components/NavBar';
+import Info from './components/Info';
+import GalleryPage from './components/PicPage/PicPage';
 
 const App = () => {
   const bgColor = useColorModeValue(
@@ -13,18 +15,21 @@ const App = () => {
     <Router>
       <Box
         bgGradient={bgColor}
-        w="100%"
-        h="100%"
         minH="100vh"
         minW="100vw"
-        position="absolute"
-        top="0"
-        left="0"
+        position="relative"
+        bgSize={'cover'}
       >
         <NavBar />
+        <Box zIndex={10} top={'50px'} position={'sticky'}>
+          <Box right={5} position={'absolute'}>
+            <Info />
+          </Box>
+        </Box>
 
         <Routes>
           <Route path="*" element={<Home />} />
+          <Route path="/gallery" element={<GalleryPage />} />
         </Routes>
       </Box>
     </Router>

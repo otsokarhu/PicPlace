@@ -9,22 +9,48 @@ import {
   InputRightElement,
   useToast,
 } from '@chakra-ui/react';
-import { LoginSchema } from '../../types';
+import { LoginSchema, LoginValues } from '../../types';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useState } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { userState } from '../../state/UserState';
+import { login } from '../../services/loginService';
 
 const LoginBox = () => {
   const toast = useToast();
   const [showPassword, setShowPassword] = useState(false);
+  const setUser = useSetRecoilState(userState);
 
-  const handleLogin = () => {
-    toast({
-      title: 'Logged in',
-      description: 'You have successfully logged in',
-      status: 'success',
-      duration: 9000,
-      isClosable: true,
-    });
+  const handleLogin = async (values: LoginValues): Promise<void> => {
+    try {
+      const loggingIn = await login(values.username, values.password);
+
+      setUser((prev) => ({
+        ...prev,
+        id: loggingIn.id,
+        username: loggingIn.username,
+        token: loggingIn.access_token,
+        admin: loggingIn.admin,
+      }));
+
+      toast({
+        title: 'Login successful',
+        description: 'Welcome back!',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top',
+      });
+    } catch (error) {
+      toast({
+        title: 'Login failed',
+        description: 'Check your username or password',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top',
+      });
+    }
   };
 
   return (

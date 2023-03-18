@@ -9,24 +9,45 @@ import {
   useColorModeValue,
   Icon,
 } from '@chakra-ui/react';
-import { ChevronRightIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
+import {
+  ChevronRightIcon,
+  MoonIcon,
+  SunIcon,
+  InfoIcon,
+} from '@chakra-ui/icons';
 import { FaHome } from 'react-icons/fa';
 import ModalElement from '../Modal';
 import LoginBox from '../Login';
 import SignUpBox from '../SignUp';
 import '@fontsource/sono';
 import { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { infoState } from '../../state/Infostate';
+import { userState } from '../../state/UserState';
 
 const NavBar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const flexColor = useColorModeValue('antiquewhite', 'lightgray');
   const buttonColor = useColorModeValue('white', 'black');
-
+  const [isOpen, setIsOpen] = useRecoilState(infoState);
+  const [user, setUser] = useRecoilState(userState);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignUpOpen, setIsSignUpOpen] = useState(false);
 
   const toggleLoginModal = () => setIsLoginOpen(!isLoginOpen);
   const toggleSignUpModal = () => setIsSignUpOpen(!isSignUpOpen);
+  const toggleInfo = () => setIsOpen(!isOpen);
+  const handleLogOut = () => {
+    setUser((prev) => ({
+      ...prev,
+      id: 0,
+      username: '',
+      token: '',
+      admin: false,
+    }));
+  };
+
+  console.log(user);
 
   return (
     <Flex
@@ -54,13 +75,23 @@ const NavBar = () => {
           </BreadcrumbItem>
 
           <BreadcrumbItem>
-            <Button
-              aria-label="openLoginModal"
-              onClick={toggleLoginModal}
-              variant={'icon'}
-            >
-              Login
-            </Button>
+            {!user.token ? (
+              <Button
+                aria-label="openLoginModal"
+                onClick={toggleLoginModal}
+                variant={'icon'}
+              >
+                Login
+              </Button>
+            ) : (
+              <Button
+                aria-label="LogoutButton"
+                onClick={handleLogOut}
+                variant={'icon'}
+              >
+                Logout
+              </Button>
+            )}
           </BreadcrumbItem>
 
           <BreadcrumbItem>
@@ -70,6 +101,16 @@ const NavBar = () => {
               variant={'icon'}
             >
               Sign Up
+            </Button>
+          </BreadcrumbItem>
+
+          <BreadcrumbItem>
+            <Button
+              aria-label="InfoButton"
+              onClick={toggleInfo}
+              variant={'icon'}
+            >
+              <InfoIcon boxSize={7} />
             </Button>
           </BreadcrumbItem>
         </Breadcrumb>
