@@ -15,15 +15,18 @@ import { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { userState } from '../../state/UserState';
 import { login } from '../../services/loginService';
+import { loginModalState } from '../../state/ModalState';
 
-const LoginBox = () => {
+const Login = () => {
   const toast = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const setUser = useSetRecoilState(userState);
+  const setLoginModal = useSetRecoilState(loginModalState);
 
   const handleLogin = async (values: LoginValues): Promise<void> => {
     try {
       const loggingIn = await login(values.username, values.password);
+      window.localStorage.setItem('loggedUser', JSON.stringify(loggingIn));
 
       setUser((prev) => ({
         ...prev,
@@ -32,6 +35,8 @@ const LoginBox = () => {
         token: loggingIn.access_token,
         admin: loggingIn.admin,
       }));
+
+      setLoginModal(false);
 
       toast({
         title: 'Login successful',
@@ -121,4 +126,4 @@ const LoginBox = () => {
   );
 };
 
-export default LoginBox;
+export default Login;

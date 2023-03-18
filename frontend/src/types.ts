@@ -22,6 +22,20 @@ export type LoginResponse = {
   id: number;
 };
 
+export type SignUpValues = {
+  username: string;
+  password: string;
+  confirmPassword?: string;
+  adminPassword?: string ;
+  admin?: boolean;
+};
+
+export type SignUpResponse = {
+  username: string;
+  admin: boolean;
+  status: string;
+};
+
 export const LoginSchema = Yup.object().shape({
   username: Yup.string()
     .required('Username is required'),
@@ -32,9 +46,11 @@ export const LoginSchema = Yup.object().shape({
 
 export const SignUpSchema = Yup.object().shape({
   username: Yup.string()
-    .required('Username is required'),
+    .required('Username is required')
+    .min(3, 'Username must be at least 3 characters long'),
   password: Yup.string()
-    .required('Please fill in your password'),
+    .required('Please fill in your password')
+    .min(4, 'Password must be at least 4 characters long'),
   confirmPassword: Yup.string()
     .required('Please confirm your password')
     .oneOf([Yup.ref('password')], 'Passwords must match'),

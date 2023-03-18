@@ -9,9 +9,12 @@ import {
   InputRightElement,
   useToast,
 } from '@chakra-ui/react';
-import { SignUpSchema } from '../../types';
+import { SignUpSchema, SignUpValues } from '../../types';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useState } from 'react';
+import { signUp } from '../../services/userService';
+import { useSetRecoilState } from 'recoil';
+import { loginModalState, signUpModalState } from '../../state/ModalState';
 
 const SignUpBox = () => {
   const toast = useToast();
@@ -19,15 +22,42 @@ const SignUpBox = () => {
   const [showconfirmPassword, setShowconfirmPassword] = useState(false);
   const [showAdminPassword, setShowAdminPassword] = useState(false);
   const [showAdminInput, setShowAdminInput] = useState(false);
+  const setSignUpModal = useSetRecoilState(signUpModalState);
+  const setLoginModal = useSetRecoilState(loginModalState);
 
-  const handleSignUp = () => {
-    toast({
-      title: 'Signed up',
-      description: 'You have successfully signed up',
-      status: 'success',
-      duration: 9000,
-      isClosable: true,
-    });
+  const handleSignUp = async (values: SignUpValues): Promise<void> => {
+    try {
+      let admin = false;
+      if (values.adminPassword) {
+        admin = true;
+      }
+      const signUpResponse = await signUp({
+        username: values.username,
+        password: values.password,
+        admin: admin,
+      });
+
+      setSignUpModal(false);
+
+      toast({
+        title: `${signUpResponse.username} registered succesfully`,
+        description: 'You can now log in',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top',
+      });
+      setLoginModal(true);
+    } catch (error) {
+      toast({
+        title: 'Registration failed',
+        description: 'Check your inputs',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top',
+      });
+    }
   };
 
   return (

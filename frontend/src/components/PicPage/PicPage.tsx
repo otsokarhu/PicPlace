@@ -1,12 +1,15 @@
-import { Flex, Heading } from '@chakra-ui/react';
+import { Flex, Heading, Text } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { Picture } from '../../types';
 import SearchBar from './Search';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../../state/UserState';
 
 import Carousel from './Carousel';
 
 const GalleryPage = () => {
   const [pictures, setPictures] = useState<Picture[]>([]);
+  const user = useRecoilValue(userState);
   const handleSearch = () => {
     console.log('search');
   };
@@ -56,8 +59,15 @@ const GalleryPage = () => {
       direction={'column'}
     >
       <Heading>Welcome to PicPlace-Gallery</Heading>
-      <Carousel pictures={pictures} />;<Heading>Search for pictures</Heading>
-      <SearchBar onSearch={handleSearch} />
+      {user.id !== 0 ? (
+        <>
+          <Carousel pictures={pictures} />
+          <Heading>Search for pictures</Heading>
+          <SearchBar onSearch={handleSearch} />
+        </>
+      ) : (
+        <Text fontSize={'xl'}>Login to view uploaded pictures</Text>
+      )}
     </Flex>
   );
 };

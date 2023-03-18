@@ -20,10 +20,11 @@ import ModalElement from '../Modal';
 import LoginBox from '../Login';
 import SignUpBox from '../SignUp';
 import '@fontsource/sono';
-import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { infoState } from '../../state/Infostate';
 import { userState } from '../../state/UserState';
+import { loginModalState, signUpModalState } from '../../state/ModalState';
+import { Link as RouterLink } from 'react-router-dom';
 
 const NavBar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -31,8 +32,8 @@ const NavBar = () => {
   const buttonColor = useColorModeValue('white', 'black');
   const [isOpen, setIsOpen] = useRecoilState(infoState);
   const [user, setUser] = useRecoilState(userState);
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [isSignUpOpen, setIsSignUpOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useRecoilState(loginModalState);
+  const [isSignUpOpen, setIsSignUpOpen] = useRecoilState(signUpModalState);
 
   const toggleLoginModal = () => setIsLoginOpen(!isLoginOpen);
   const toggleSignUpModal = () => setIsSignUpOpen(!isSignUpOpen);
@@ -45,9 +46,9 @@ const NavBar = () => {
       token: '',
       admin: false,
     }));
-  };
 
-  console.log(user);
+    window.localStorage.removeItem('loggedUser');
+  };
 
   return (
     <Flex
@@ -75,7 +76,7 @@ const NavBar = () => {
           </BreadcrumbItem>
 
           <BreadcrumbItem>
-            {!user.token ? (
+            {user.id === 0 ? (
               <Button
                 aria-label="openLoginModal"
                 onClick={toggleLoginModal}
@@ -95,13 +96,21 @@ const NavBar = () => {
           </BreadcrumbItem>
 
           <BreadcrumbItem>
-            <Button
-              aria-label="openSignUpModal"
-              onClick={toggleSignUpModal}
-              variant={'icon'}
-            >
-              Sign Up
-            </Button>
+            {user.id === 0 ? (
+              <Button
+                aria-label="openSignUpModal"
+                onClick={toggleSignUpModal}
+                variant={'icon'}
+              >
+                Sign Up
+              </Button>
+            ) : (
+              <Link as={RouterLink} to="/gallery">
+                <Button aria-label="GalleryButton" variant={'icon'}>
+                  Gallery
+                </Button>
+              </Link>
+            )}
           </BreadcrumbItem>
 
           <BreadcrumbItem>

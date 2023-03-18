@@ -14,7 +14,7 @@ def register(username, password, admin):
 
     sql2 = text("SELECT id FROM users WHERE username=:username")
     if db.session.execute(sql2, {"username": username}).fetchone():
-        return False
+        return jsonify({"msg": "Username already taken"}), 400
 
     sql = text(
         "INSERT INTO users (username, password, admin) VALUES (:username, :password, :admin)")
@@ -25,7 +25,9 @@ def register(username, password, admin):
     
     db.session.commit()
 
-    return True
+    status = "login successful"
+
+    return jsonify(username=username, admin=admin, status=status ), 200
 
 def login(username, password):
  
