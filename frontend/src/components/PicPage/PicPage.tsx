@@ -1,17 +1,24 @@
-import { Flex, Heading, Text } from '@chakra-ui/react';
+import { Button, Flex, Heading, Text } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { Picture } from '../../types';
 import SearchBar from './Search';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../state/UserState';
+import ImageDropzone from '../PicUpload';
+import ModalElement from '../Modal';
 
 import Carousel from './Carousel';
 
 const GalleryPage = () => {
   const [pictures, setPictures] = useState<Picture[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const toggleModal = () => setIsModalOpen(!isModalOpen);
   const user = useRecoilValue(userState);
   const handleSearch = () => {
     console.log('search');
+  };
+  const handleUpload = () => {
+    console.log('upload');
   };
 
   useEffect(() => {
@@ -64,6 +71,13 @@ const GalleryPage = () => {
           <Carousel pictures={pictures} />
           <Heading>Search for pictures</Heading>
           <SearchBar onSearch={handleSearch} />
+          <Button onClick={toggleModal}>Upload a picture</Button>
+          <ModalElement
+            onClose={toggleModal}
+            isOpen={isModalOpen}
+            title={'Upload a picture'}
+            component={<ImageDropzone onDrop={handleUpload} />}
+          />
         </>
       ) : (
         <Text fontSize={'xl'}>Login to view uploaded pictures</Text>

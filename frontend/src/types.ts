@@ -70,5 +70,14 @@ export interface User {
   username: string;
   admin?: boolean;
   pictures?: Picture[];
-  token?: string;
+  token: string;
 }
+
+export interface Picture2 {
+  id: number;
+  path: string;
+  description: string;
+  size: string;
+  created_by_id: number;
+}
+

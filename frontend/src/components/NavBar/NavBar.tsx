@@ -20,9 +20,10 @@ import ModalElement from '../Modal';
 import LoginBox from '../Login';
 import SignUpBox from '../SignUp';
 import '@fontsource/sono';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { infoState } from '../../state/Infostate';
 import { userState } from '../../state/UserState';
+import { allPicturesState } from '../../state/AllPicturesState';
 import { loginModalState, signUpModalState } from '../../state/ModalState';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -31,22 +32,18 @@ const NavBar = () => {
   const flexColor = useColorModeValue('antiquewhite', 'lightgray');
   const buttonColor = useColorModeValue('white', 'black');
   const [isOpen, setIsOpen] = useRecoilState(infoState);
-  const [user, setUser] = useRecoilState(userState);
+  const user = useRecoilValue(userState);
   const [isLoginOpen, setIsLoginOpen] = useRecoilState(loginModalState);
   const [isSignUpOpen, setIsSignUpOpen] = useRecoilState(signUpModalState);
+  const resetPictures = useResetRecoilState(allPicturesState);
+  const resetUser = useResetRecoilState(userState);
 
   const toggleLoginModal = () => setIsLoginOpen(!isLoginOpen);
   const toggleSignUpModal = () => setIsSignUpOpen(!isSignUpOpen);
   const toggleInfo = () => setIsOpen(!isOpen);
   const handleLogOut = () => {
-    setUser((prev) => ({
-      ...prev,
-      id: 0,
-      username: '',
-      token: '',
-      admin: false,
-    }));
-
+    resetPictures();
+    resetUser();
     window.localStorage.removeItem('loggedUser');
   };
 
@@ -85,13 +82,15 @@ const NavBar = () => {
                 Login
               </Button>
             ) : (
-              <Button
-                aria-label="LogoutButton"
-                onClick={handleLogOut}
-                variant={'icon'}
-              >
-                Logout
-              </Button>
+              <Link as={RouterLink} to="/">
+                <Button
+                  aria-label="LogoutButton"
+                  onClick={handleLogOut}
+                  variant={'icon'}
+                >
+                  Logout
+                </Button>
+              </Link>
             )}
           </BreadcrumbItem>
 
