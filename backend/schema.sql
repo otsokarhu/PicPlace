@@ -9,7 +9,8 @@ CREATE TABLE images (
     id SERIAL PRIMARY KEY,
     path TEXT,
     description TEXT,
-    created_by INTEGER REFERENCES users
+    size TEXT,
+    created_by_id INTEGER REFERENCES users
 );
 
 CREATE TABLE tags (

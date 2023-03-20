@@ -12,9 +12,8 @@ jwt = JWTManager(app)
 def register(username, password, admin):
     hash_value = generate_password_hash(password) 
 
-    sql2 = text("SELECT id FROM users WHERE username=:username")
-    if db.session.execute(sql2, {"username": username}).fetchone():
-        return jsonify({"msg": "Username already taken"}), 400
+    if check_username(username):
+      return jsonify({"msg": "Username already taken"}), 400
 
     sql = text(
         "INSERT INTO users (username, password, admin) VALUES (:username, :password, :admin)")
@@ -52,6 +51,22 @@ def login(username, password):
 def protected():
   current_user = get_jwt_identity()
   return jsonify(logged_in_as=current_user), 200
+
+def check_user(id):
+  sql = text("SELECT id FROM users WHERE id=:id")
+
+  if db.session.execute(sql, {"id": id}).fetchone():
+    return True
+
+  return False
+
+def check_username(username):
+  sql = text("SELECT id FROM users WHERE username=:username")
+
+  if db.session.execute(sql, {"username": username}).fetchone():
+    return True
+
+  return False
 
 
 
