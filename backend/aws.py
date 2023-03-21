@@ -28,3 +28,15 @@ def upload_file_to_s3(file):
         return e
 
     return file.filename
+
+def delete_file_from_s3(filename):
+    try:
+        s3.delete_object(
+            Bucket=app.config["S3_BUCKET"],
+            Key=filename
+        )
+    except Exception as e:
+        print("Something Happened: ", e)
+        return e
+
+    return filename

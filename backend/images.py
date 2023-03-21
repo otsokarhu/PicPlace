@@ -2,6 +2,7 @@ import os
 from flask import  jsonify
 from db import db
 import users
+import aws
 from sqlalchemy.sql import text
 
 def upload_image(path, description, size, created_by_id):
@@ -41,15 +42,24 @@ def get_image_creator(id):
   return user_id[0]
 
   
+def get_image_name(id):
+  sql = text("SELECT path FROM images WHERE id = :id")
 
+  image_name = db.session.execute(sql, {"id": id}).fetchone()
+
+  return image_name[0]
 
  
 def delete_image(id):
+  image_name = get_image_name(id)
+
   sql = text("DELETE FROM images WHERE id = :id")
 
   db.session.execute(sql, {"id": id})
 
   db.session.commit()
+
+  aws.delete_file_from_s3(image_name)
 
   return jsonify({"msg": "Image deleted"}), 200
 
