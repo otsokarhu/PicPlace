@@ -59,6 +59,13 @@ export const SignUpSchema = Yup.object().shape({
     .oneOf([adminCode], 'Incorrect admin code')
 });
 
+export const CaptionValidation = Yup.object().shape({
+  caption: Yup.string()
+    .required('Please fill in a caption')
+    .min(3, 'Caption must be at least 3 characters long')
+});
+
+
 export interface Picture {
   id: number;
   url: string;
@@ -73,11 +80,34 @@ export interface User {
   token: string;
 }
 
-export interface Picture2 {
+// interface for pictures from server
+export interface PictureFromServer {
   id: number;
   path: string;
   description: string;
   size: string;
   created_by_id: number;
+}
+
+// interface for pictures to server
+export interface PictureUpload {
+  file: File;
+  description: string;
+  size: string;
+  uploaded_by_id: number;
+}
+
+export type PictureUploadProps = {
+  picture: PictureUpload;
+  token: string;
+};
+
+export interface DropZoneProps {
+  onDragStateChange?: (isDragActive: boolean) => void
+  onDrag?: () => void
+  onDragIn?: () => void
+  onDragOut?: () => void
+  onDrop?: () => void
+  onFilesDrop?: (files: File[]) => void
 }
 

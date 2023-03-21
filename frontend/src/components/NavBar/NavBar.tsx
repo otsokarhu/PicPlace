@@ -23,7 +23,7 @@ import '@fontsource/sono';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { infoState } from '../../state/Infostate';
 import { userState } from '../../state/UserState';
-import { allPicturesState } from '../../state/AllPicturesState';
+import { allPicturesState } from '../../state/PicturesState';
 import { loginModalState, signUpModalState } from '../../state/ModalState';
 import { Link as RouterLink } from 'react-router-dom';
 

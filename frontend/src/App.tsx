@@ -5,9 +5,9 @@ import NavBar from './components/NavBar';
 import Info from './components/Info';
 import GalleryPage from './components/PicPage/PicPage';
 import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState, useRecoilState } from 'recoil';
 import { userState } from './state/UserState';
-import { allPicturesState } from './state/AllPicturesState';
+import { allPicturesState } from './state/PicturesState';
 import { getAllPictures } from './services/picService';
 import { LoginResponse } from './types';
 
@@ -17,7 +17,7 @@ const App = () => {
     'linear-gradient(111deg, rgba(7, 50, 52, 1) 0%, rgba(75, 39, 0, 1) 100%)'
   );
   const [user, setUser] = useRecoilState(userState);
-  const [allPictures, setAllPictures] = useRecoilState(allPicturesState);
+  const setAllPictures = useSetRecoilState(allPicturesState);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser');
@@ -44,8 +44,6 @@ const App = () => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     getAllPics();
   }, [user.token, setAllPictures]);
-
-  console.log(allPictures);
 
   return (
     <Router>

@@ -28,8 +28,7 @@ const Login = () => {
       const loggingIn = await login(values.username, values.password);
       window.localStorage.setItem('loggedUser', JSON.stringify(loggingIn));
 
-      setUser((prev) => ({
-        ...prev,
+      setUser(() => ({
         id: loggingIn.id,
         username: loggingIn.username,
         token: loggingIn.access_token,
