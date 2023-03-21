@@ -1,6 +1,6 @@
 from app import app
 from flask import render_template, request, session, jsonify, redirect
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 import users
 import images
 import aws
@@ -66,6 +66,22 @@ def upload_file():
 def get_images():
     all_images = images.get_images()
     return jsonify(all_images)
+
+@app.route("/api/images/<int:id>", methods=["DELETE"])
+@jwt_required()
+def delete_image(id):
+    current_user = get_jwt_identity()
+        
+    if not images.check_image_owner(id, current_user):
+        if not users.check_if_admin(current_user):
+          return jsonify({"msg": "You are not the owner of this image nor admin"}), 400
+    
+    images.delete_image(id)
+
+    return jsonify({"msg": "Image deleted"}), 200
+    
+
+
    
 
 

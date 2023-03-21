@@ -23,7 +23,7 @@ def get_images():
 
   for row in images:
     image_dict = {
-      'image_id': row[0],
+      'id': row[0],
       'path': row[1],
       'description': row[2],
       'size': row[3],
@@ -32,6 +32,39 @@ def get_images():
     result.append(image_dict)
 
   return result
+
+def get_image_creator(id):
+  sql = text("SELECT created_by_id FROM images WHERE id = :id")
+
+  user_id = db.session.execute(sql, {"id": id}).fetchone()
+
+  return user_id[0]
+
+  
+
+
+ 
+def delete_image(id):
+  sql = text("DELETE FROM images WHERE id = :id")
+
+  db.session.execute(sql, {"id": id})
+
+  db.session.commit()
+
+  return jsonify({"msg": "Image deleted"}), 200
+
+
+def check_image_owner(image_id, username):
+  user_id = users.get_user_by_username(username)[0]
+
+  image = get_image_creator(image_id)
+
+  return image == user_id
+    
+
+
+
+
 
 
 

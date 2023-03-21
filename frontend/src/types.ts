@@ -66,17 +66,10 @@ export const CaptionValidation = Yup.object().shape({
 });
 
 
-export interface Picture {
-  id: number;
-  url: string;
-  caption: string;
-}
-
 export interface User {
   id: number;
   username: string;
   admin?: boolean;
-  pictures?: Picture[];
   token: string;
 }
 
@@ -87,6 +80,7 @@ export interface PictureFromServer {
   description: string;
   size: string;
   created_by_id: number;
+  link?: string;
 }
 
 // interface for pictures to server
@@ -102,12 +96,5 @@ export type PictureUploadProps = {
   token: string;
 };
 
-export interface DropZoneProps {
-  onDragStateChange?: (isDragActive: boolean) => void
-  onDrag?: () => void
-  onDragIn?: () => void
-  onDragOut?: () => void
-  onDrop?: () => void
-  onFilesDrop?: (files: File[]) => void
-}
+
 

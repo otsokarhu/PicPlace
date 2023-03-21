@@ -27,4 +27,4 @@ def upload_file_to_s3(file):
         print("Something Happened: ", e)
         return e
 
-    return f'{format(app.config["S3_LOCATION"])}/{file.filename}'
+    return file.filename

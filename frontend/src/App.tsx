@@ -1,23 +1,29 @@
 import Home from './components/Home';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Box, useColorModeValue } from '@chakra-ui/react';
+import { Box, useColorModeValue, useToast } from '@chakra-ui/react';
 import NavBar from './components/NavBar';
 import Info from './components/Info';
-import GalleryPage from './components/PicPage/PicPage';
+import GalleryPage from './components/PicPage';
 import { useEffect } from 'react';
-import { useSetRecoilState, useRecoilState } from 'recoil';
+import { useSetRecoilState, useRecoilState, useResetRecoilState } from 'recoil';
 import { userState } from './state/UserState';
+import { loginModalState } from './state/ModalState';
 import { allPicturesState } from './state/PicturesState';
 import { getAllPictures } from './services/picService';
 import { LoginResponse } from './types';
+import { getError } from './utils/utils';
 
 const App = () => {
   const bgColor = useColorModeValue(
     'linear-gradient(111deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)',
     'linear-gradient(111deg, rgba(7, 50, 52, 1) 0%, rgba(75, 39, 0, 1) 100%)'
   );
+  const resetUser = useResetRecoilState(userState);
+  const resetPictures = useResetRecoilState(allPicturesState);
+  const toast = useToast();
   const [user, setUser] = useRecoilState(userState);
   const setAllPictures = useSetRecoilState(allPicturesState);
+  const setLoginModal = useSetRecoilState(loginModalState);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser');
@@ -37,13 +43,30 @@ const App = () => {
     if (user.token === '') {
       return;
     }
-    const getAllPics = async () => {
-      const pictures = await getAllPictures(user.token);
-      setAllPictures(pictures);
-    };
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    getAllPics();
-  }, [user.token, setAllPictures]);
+    void (async () => {
+      try {
+        const pictures = await getAllPictures(user.token);
+        setAllPictures(pictures);
+        return;
+      } catch (error) {
+        const errorMessage = getError(error);
+        if (errorMessage.includes('401')) {
+          toast({
+            title: 'Session expired',
+            description: 'Please log in again',
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+          });
+          resetUser();
+          resetPictures();
+          window.localStorage.removeItem('loggedUser');
+          setLoginModal(true);
+          return;
+        }
+      }
+    })();
+  }, [user.token]);
 
   return (
     <Router>

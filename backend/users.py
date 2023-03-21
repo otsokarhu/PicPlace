@@ -68,5 +68,14 @@ def check_username(username):
 
   return False
 
+def get_user_by_username(username):
+  sql = text("SELECT id FROM users WHERE username=:username")
+
+  return db.session.execute(sql, {"username": username}).fetchone()
+
+def check_if_admin(username):
+  sql = text("SELECT admin FROM users WHERE username=:username")
+
+  return db.session.execute(sql, {"username": username}).fetchone()[0]
 
 

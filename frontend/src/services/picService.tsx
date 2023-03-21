@@ -2,6 +2,7 @@ import axios from 'axios';
 import { FileWithPath } from 'react-dropzone';
 import { PictureFromServer, PictureUpload } from '../types';
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+const bucketBaseUrl = import.meta.env.VITE_S3_BUCKET;
 
 export const getAllPictures = async (token: string) => {
   try {
@@ -12,6 +13,9 @@ export const getAllPictures = async (token: string) => {
       `${apiBaseUrl}/api/images`,
       config
     );
+    response.data.forEach((picture) => {
+      picture.link = `${bucketBaseUrl}/${picture.path}`;
+    });
     return response.data;
   } catch (error) {
     console.log(error);

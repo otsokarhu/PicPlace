@@ -9,3 +9,8 @@ export const signUpModalState = atom({
   key: 'signUpModalState',
   default: false,
 });
+
+export const userInfoModalState = atom({
+  key: 'userInfoModalState',
+  default: false,
+});

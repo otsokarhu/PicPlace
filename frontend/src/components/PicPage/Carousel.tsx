@@ -10,9 +10,9 @@ import {
 import { useState } from 'react';
 import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
 import Slider from 'react-slick';
-import { Picture } from '../../types';
+import { PictureFromServer } from '../../types';
 
-const Carousel = ({ pictures }: { pictures: Picture[] }) => {
+const Carousel = ({ pictures }: { pictures: PictureFromServer[] }) => {
   const settings = {
     dots: true,
     arrows: false,
@@ -87,7 +87,7 @@ const Carousel = ({ pictures }: { pictures: Picture[] }) => {
             backgroundPosition="center"
             backgroundRepeat="no-repeat"
             backgroundSize="cover"
-            backgroundImage={`url(${pic.url})`}
+            backgroundImage={`url(${pic.link})`}
           >
             {/* This is the block you need to change, to customize the caption */}
             <Container size="container.lg" height="600px" position="relative">
@@ -100,7 +100,7 @@ const Carousel = ({ pictures }: { pictures: Picture[] }) => {
                 transform="translate(0, -50%)"
               >
                 <Heading fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}>
-                  {pic.caption}
+                  {pic.description}
                 </Heading>
                 <Text fontSize={{ base: 'md', lg: 'lg' }} color="GrayText">
                   {pic.id}

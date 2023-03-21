@@ -24,8 +24,13 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { infoState } from '../../state/Infostate';
 import { userState } from '../../state/UserState';
 import { allPicturesState } from '../../state/PicturesState';
-import { loginModalState, signUpModalState } from '../../state/ModalState';
+import {
+  loginModalState,
+  signUpModalState,
+  userInfoModalState,
+} from '../../state/ModalState';
 import { Link as RouterLink } from 'react-router-dom';
+import UserPage from '../UserPage';
 
 const NavBar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -35,11 +40,14 @@ const NavBar = () => {
   const user = useRecoilValue(userState);
   const [isLoginOpen, setIsLoginOpen] = useRecoilState(loginModalState);
   const [isSignUpOpen, setIsSignUpOpen] = useRecoilState(signUpModalState);
+  const [isUserInfoOpen, setIsUserInfoOpen] =
+    useRecoilState(userInfoModalState);
   const resetPictures = useResetRecoilState(allPicturesState);
   const resetUser = useResetRecoilState(userState);
 
   const toggleLoginModal = () => setIsLoginOpen(!isLoginOpen);
   const toggleSignUpModal = () => setIsSignUpOpen(!isSignUpOpen);
+  const toggleUserInfoModal = () => setIsUserInfoOpen(!isUserInfoOpen);
   const toggleInfo = () => setIsOpen(!isOpen);
   const handleLogOut = () => {
     resetPictures();
@@ -58,22 +66,20 @@ const NavBar = () => {
       zIndex={1}
     >
       <Center w={'100%'} h={'100%'}>
-        <Breadcrumb
-          fontSize={25}
-          spacing={'8px'}
-          fontFamily={'"Sono", sans-serif;'}
-          separator={<ChevronRightIcon color={'gray.500'} />}
-        >
-          <BreadcrumbItem>
-            <Link href="/">
-              <Button aria-label="HomeButton" variant={'icon'}>
-                <Icon as={FaHome} boxSize={8} />
-              </Button>
-            </Link>
-          </BreadcrumbItem>
-
-          <BreadcrumbItem>
-            {user.id === 0 ? (
+        {user.id === 0 ? (
+          <Breadcrumb
+            fontSize={25}
+            spacing={'8px'}
+            separator={<ChevronRightIcon color={'gray.500'} />}
+          >
+            <BreadcrumbItem>
+              <Link href="/">
+                <Button aria-label="HomeButton" variant={'icon'}>
+                  <Icon as={FaHome} boxSize={8} />
+                </Button>
+              </Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
               <Button
                 aria-label="openLoginModal"
                 onClick={toggleLoginModal}
@@ -81,7 +87,40 @@ const NavBar = () => {
               >
                 Login
               </Button>
-            ) : (
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <Button
+                aria-label="openSignUpModal"
+                onClick={toggleSignUpModal}
+                variant={'icon'}
+              >
+                Sign Up
+              </Button>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <Button
+                aria-label="InfoButton"
+                onClick={toggleInfo}
+                variant={'icon'}
+              >
+                <InfoIcon boxSize={7} />
+              </Button>
+            </BreadcrumbItem>
+          </Breadcrumb>
+        ) : (
+          <Breadcrumb
+            fontSize={25}
+            spacing={'8px'}
+            separator={<ChevronRightIcon color={'gray.500'} />}
+          >
+            <BreadcrumbItem>
+              <Link href="/">
+                <Button aria-label="HomeButton" variant={'icon'}>
+                  <Icon as={FaHome} boxSize={8} />
+                </Button>
+              </Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
               <Link as={RouterLink} to="/">
                 <Button
                   aria-label="LogoutButton"
@@ -91,37 +130,34 @@ const NavBar = () => {
                   Logout
                 </Button>
               </Link>
-            )}
-          </BreadcrumbItem>
-
-          <BreadcrumbItem>
-            {user.id === 0 ? (
-              <Button
-                aria-label="openSignUpModal"
-                onClick={toggleSignUpModal}
-                variant={'icon'}
-              >
-                Sign Up
-              </Button>
-            ) : (
+            </BreadcrumbItem>
+            <BreadcrumbItem>
               <Link as={RouterLink} to="/gallery">
                 <Button aria-label="GalleryButton" variant={'icon'}>
                   Gallery
                 </Button>
               </Link>
-            )}
-          </BreadcrumbItem>
-
-          <BreadcrumbItem>
-            <Button
-              aria-label="InfoButton"
-              onClick={toggleInfo}
-              variant={'icon'}
-            >
-              <InfoIcon boxSize={7} />
-            </Button>
-          </BreadcrumbItem>
-        </Breadcrumb>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <Button
+                aria-label="openUserInfoModal"
+                onClick={toggleUserInfoModal}
+                variant={'icon'}
+              >
+                {user.username}
+              </Button>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <Button
+                aria-label="InfoButton"
+                onClick={toggleInfo}
+                variant={'icon'}
+              >
+                <InfoIcon boxSize={7} />
+              </Button>
+            </BreadcrumbItem>
+          </Breadcrumb>
+        )}
       </Center>
 
       <Button
@@ -146,6 +182,13 @@ const NavBar = () => {
         isOpen={isSignUpOpen}
         title={'Sign Up'}
         component={<SignUpBox />}
+      />
+
+      <ModalElement
+        onClose={toggleUserInfoModal}
+        isOpen={isUserInfoOpen}
+        title={'User Info'}
+        component={<UserPage />}
       />
     </Flex>
   );
