@@ -10,12 +10,17 @@ export const signUpModalState = atom({
   default: false,
 });
 
-export const userInfoModalState = atom({
+export const userModalState = atom({
   key: 'userInfoModalState',
   default: false,
 });
 
 export const uploadModalState = atom({
   key: 'uploadModalState',
+  default: false,
+});
+
+export const adminModalState = atom({
+  key: 'adminModalState',
   default: false,
 });

@@ -27,10 +27,12 @@ import { allPicturesState } from '../../state/PicturesState';
 import {
   loginModalState,
   signUpModalState,
-  userInfoModalState,
+  userModalState,
+  adminModalState,
 } from '../../state/ModalState';
 import { Link as RouterLink } from 'react-router-dom';
-import UserPage from '../UserPage';
+import UserPage from '../PictureListPages/UserPage';
+import AdminPage from '../PictureListPages/AdminPage';
 
 const NavBar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -40,14 +42,16 @@ const NavBar = () => {
   const user = useRecoilValue(userState);
   const [isLoginOpen, setIsLoginOpen] = useRecoilState(loginModalState);
   const [isSignUpOpen, setIsSignUpOpen] = useRecoilState(signUpModalState);
-  const [isUserInfoOpen, setIsUserInfoOpen] =
-    useRecoilState(userInfoModalState);
+  const [isUserModalOpen, setIsUserModalOpen] = useRecoilState(userModalState);
+  const [isAdminModalOpen, setIsAdminModalOpen] =
+    useRecoilState(adminModalState);
   const resetPictures = useResetRecoilState(allPicturesState);
   const resetUser = useResetRecoilState(userState);
 
   const toggleLoginModal = () => setIsLoginOpen(!isLoginOpen);
   const toggleSignUpModal = () => setIsSignUpOpen(!isSignUpOpen);
-  const toggleUserInfoModal = () => setIsUserInfoOpen(!isUserInfoOpen);
+  const toggleUserInfoModal = () => setIsUserModalOpen(!isUserModalOpen);
+  const toggleAdminInfoModal = () => setIsAdminModalOpen(!isAdminModalOpen);
   const toggleInfo = () => setIsOpen(!isOpen);
   const handleLogOut = () => {
     resetPictures();
@@ -147,6 +151,18 @@ const NavBar = () => {
                 {user.username}
               </Button>
             </BreadcrumbItem>
+            {user.admin && (
+              <BreadcrumbItem>
+                <Button
+                  aria-label="openAdminInfoModal"
+                  onClick={toggleAdminInfoModal}
+                  variant={'icon'}
+                >
+                  Admin Page
+                </Button>
+              </BreadcrumbItem>
+            )}
+
             <BreadcrumbItem>
               <Button
                 aria-label="InfoButton"
@@ -186,9 +202,16 @@ const NavBar = () => {
 
       <ModalElement
         onClose={toggleUserInfoModal}
-        isOpen={isUserInfoOpen}
+        isOpen={isUserModalOpen}
         title={'User Info'}
         component={<UserPage />}
+      />
+
+      <ModalElement
+        onClose={toggleAdminInfoModal}
+        isOpen={isAdminModalOpen}
+        title={'Admin Page'}
+        component={<AdminPage />}
       />
     </Flex>
   );

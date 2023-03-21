@@ -1,11 +1,11 @@
-import { Flex, Heading, Text, useToast } from '@chakra-ui/react';
+import { useToast } from '@chakra-ui/react';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../state/UserState';
 import { allPicturesState } from '../../state/PicturesState';
 import { useState, useEffect } from 'react';
 import { PictureFromServer } from '../../types';
 import { deletePicture } from '../../services/picService';
-import SinglePicture from './SinglePicture';
+import PictureListPage from './PictureListPage';
 
 const UserPage = () => {
   const user = useRecoilValue(userState);
@@ -46,47 +46,15 @@ const UserPage = () => {
   };
 
   return (
-    <Flex
-      direction="column"
-      align="center"
-      justify="center"
-      w="100%"
-      h="100%"
-      p={4}
-    >
-      <Heading size="2xl" mb={4}>
-        Hi, {user.username}!
-      </Heading>
-      {userPictures.length > 0 ? (
-        <>
-          {userPictures.length === 1 ? (
-            <>
-              <Text>You have uploaded 1 picture</Text>
-              <Text>Here is your picture:</Text>
-            </>
-          ) : (
-            <>
-              <Text>You have uploaded {userPictures.length} pictures</Text>
-              <Text>Here are your pictures:</Text>
-            </>
-          )}
-          <Flex direction="row" wrap="wrap" justify="center" mt={4}>
-            {userPictures.map((pic) => (
-              <SinglePicture
-                key={pic.id}
-                pic={pic}
-                toggleWindowConfirm={toggleWindowConfirm}
-                isOpen={isOpen}
-                // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                handleDelete={handleDelete}
-              />
-            ))}
-          </Flex>
-        </>
-      ) : (
-        <Text>You have not uploaded any pictures yet</Text>
-      )}
-    </Flex>
+    <PictureListPage
+      pictures={userPictures}
+      page={'user'}
+      isOpen={isOpen}
+      toggleWindowConfirm={toggleWindowConfirm}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      handleDelete={handleDelete}
+      name={user.username}
+    />
   );
 };
 
