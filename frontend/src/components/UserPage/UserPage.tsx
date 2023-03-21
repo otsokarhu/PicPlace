@@ -1,14 +1,18 @@
-import { Flex, Heading, Text, Image } from '@chakra-ui/react';
+import { Flex, Heading, Text, useToast } from '@chakra-ui/react';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../state/UserState';
 import { allPicturesState } from '../../state/PicturesState';
 import { useState, useEffect } from 'react';
 import { PictureFromServer } from '../../types';
+import { deletePicture } from '../../services/picService';
+import SinglePicture from './SinglePicture';
 
 const UserPage = () => {
   const user = useRecoilValue(userState);
+  const toast = useToast();
   const allPictures = useRecoilValue(allPicturesState);
   const [userPictures, setUserPictures] = useState([] as PictureFromServer[]);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     if (user.id !== 0) {
@@ -17,7 +21,29 @@ const UserPage = () => {
       );
       setUserPictures(userPics);
     }
-  }, [user]);
+  }, [user, allPictures]);
+
+  const toggleWindowConfirm = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleDelete = async (id: number) => {
+    try {
+      await deletePicture(user.token, id);
+      const newPictures = userPictures.filter((pic) => pic.id !== id);
+      setUserPictures(newPictures);
+      toggleWindowConfirm();
+      toast({
+        title: 'Picture deleted',
+        description: 'Your picture has been deleted',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Flex
@@ -44,16 +70,15 @@ const UserPage = () => {
               <Text>Here are your pictures:</Text>
             </>
           )}
-
           <Flex direction="row" wrap="wrap" justify="center" mt={4}>
             {userPictures.map((pic) => (
-              <Image
+              <SinglePicture
                 key={pic.id}
-                src={pic.link}
-                alt={pic.description}
-                w="300px"
-                h="300px"
-                m={2}
+                pic={pic}
+                toggleWindowConfirm={toggleWindowConfirm}
+                isOpen={isOpen}
+                // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                handleDelete={handleDelete}
               />
             ))}
           </Flex>

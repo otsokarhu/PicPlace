@@ -11,9 +11,10 @@ import {
   Input,
 } from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { uploadingPictureState } from '../../state/PicturesState';
 import { userState } from '../../state/UserState';
+import { uploadModalState } from '../../state/ModalState';
 import { useEffect } from 'react';
 import { Form, Formik } from 'formik';
 import { uploadPicture } from '../../services/picService';
@@ -21,12 +22,13 @@ import { CaptionValidation } from '../../types';
 
 const ImageDropzone = () => {
   const [picture, setUploadingPicture] = useRecoilState(uploadingPictureState);
+  const setUploadModal = useSetRecoilState(uploadModalState);
   const user = useRecoilValue(userState);
   const toast = useToast();
   const { acceptedFiles, getRootProps, getInputProps, isDragActive } =
     useDropzone({
       accept: {
-        'image/*': [],
+        'image/*': ['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp', '.bmp'],
       },
       maxFiles: 1,
       maxSize: 1000000,
@@ -44,14 +46,22 @@ const ImageDropzone = () => {
   ): Promise<void> => {
     if (user.token !== '') {
       try {
-        const uploadedPicture = await uploadPicture(
+        await uploadPicture(
           user.token,
           image,
           `${image.size}bytes`,
           caption,
           user.id
         );
-        console.log(uploadedPicture);
+        toast({
+          title: 'Upload successful',
+          description: 'Your picture has been uploaded',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+          position: 'top',
+        });
+        setUploadModal(false);
       } catch (error) {
         toast({
           title: 'Upload failed',

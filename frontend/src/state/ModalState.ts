@@ -14,3 +14,8 @@ export const userInfoModalState = atom({
   key: 'userInfoModalState',
   default: false,
 });
+
+export const uploadModalState = atom({
+  key: 'uploadModalState',
+  default: false,
+});

@@ -1,7 +1,5 @@
 import * as Yup from 'yup';
-
 const adminCode = import.meta.env.VITE_ADMIN_PASSWORD;
-
 
 export type ModalElementProps = {
   component: JSX.Element;
@@ -95,6 +93,24 @@ export type PictureUploadProps = {
   picture: PictureUpload;
   token: string;
 };
+
+export type WindowConfirmProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  header: string;
+  body: string;
+  confirmButtonText: string;
+  cancelButtonText: string;
+  onConfirm: () => void;
+};
+
+export type SinglePictureProps = {
+  pic: PictureFromServer;
+  toggleWindowConfirm: () => void;
+  isOpen: boolean;
+  handleDelete: (id: number) => void;
+};
+
 
 
 

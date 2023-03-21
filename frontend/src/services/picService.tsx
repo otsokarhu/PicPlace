@@ -54,3 +54,15 @@ export const uploadPicture = async (
     throw error;
   }
 };
+
+export const deletePicture = async (token: string, image_id: number) => {
+  try {
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+    await axios.delete(`${apiBaseUrl}/api/images/${image_id}`, config);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

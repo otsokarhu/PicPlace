@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Box, useColorModeValue, useToast } from '@chakra-ui/react';
 import NavBar from './components/NavBar';
 import Info from './components/Info';
-import GalleryPage from './components/PicPage';
+import GalleryPage from './components/Gallery';
 import { useEffect } from 'react';
 import { useSetRecoilState, useRecoilState, useResetRecoilState } from 'recoil';
 import { userState } from './state/UserState';
@@ -22,7 +22,7 @@ const App = () => {
   const resetPictures = useResetRecoilState(allPicturesState);
   const toast = useToast();
   const [user, setUser] = useRecoilState(userState);
-  const setAllPictures = useSetRecoilState(allPicturesState);
+  const [allPictures, setAllPictures] = useRecoilState(allPicturesState);
   const setLoginModal = useSetRecoilState(loginModalState);
 
   useEffect(() => {
@@ -66,7 +66,7 @@ const App = () => {
         }
       }
     })();
-  }, [user.token]);
+  }, [user.token, allPictures]);
 
   return (
     <Router>

@@ -1,19 +1,19 @@
 import { Button, Flex, Heading, Text } from '@chakra-ui/react';
-import { useState } from 'react';
 import SearchBar from './Search';
 import { userState } from '../../state/UserState';
 import {
   uploadingPictureState,
   allPicturesState,
 } from '../../state/PicturesState';
-import { useResetRecoilState, useRecoilValue } from 'recoil';
-import ImageDropzone from '../PicUpload';
+import { uploadModalState } from '../../state/ModalState';
+import { useResetRecoilState, useRecoilValue, useRecoilState } from 'recoil';
+import ImageDropzone from '../Upload';
 import ModalElement from '../Modal';
 import Carousel from './Carousel';
 
 const GalleryPage = () => {
   const resetUploadablePicture = useResetRecoilState(uploadingPictureState);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useRecoilState(uploadModalState);
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
     resetUploadablePicture();
