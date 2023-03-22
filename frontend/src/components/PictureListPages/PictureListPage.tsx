@@ -1,15 +1,6 @@
 import { Flex, Heading, Text } from '@chakra-ui/react';
-import { PictureFromServer } from '../../types';
+import { PictureListPageProps } from '../../types';
 import SinglePicture from './SinglePicture';
-
-type PictureListPageProps = {
-  name: string;
-  pictures: PictureFromServer[];
-  toggleWindowConfirm: () => void;
-  isOpen: boolean;
-  handleDelete: (id: number) => void;
-  page: 'admin' | 'user';
-};
 
 const PictureListPage = ({
   name,
@@ -19,6 +10,7 @@ const PictureListPage = ({
   handleDelete,
   page,
 }: PictureListPageProps) => {
+  // texts function return different texts depending on the amount of pictures and the page
   const texts = () => {
     switch (page) {
       case 'admin':

@@ -1,6 +1,7 @@
 import { Flex, Heading } from '@chakra-ui/react';
 
 const Home = () => {
+  // todo: add a nice welcome message
   return (
     <Flex justify={'center'} alignItems={'center'} h={'92vh'}>
       <Heading>Welcome to PicPlace</Heading>

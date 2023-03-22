@@ -18,12 +18,12 @@ import { loginModalState, signUpModalState } from '../../state/ModalState';
 
 const SignUpBox = () => {
   const toast = useToast();
-  const [showPassword, setShowPassword] = useState(false);
-  const [showconfirmPassword, setShowconfirmPassword] = useState(false);
-  const [showAdminPassword, setShowAdminPassword] = useState(false);
-  const [showAdminInput, setShowAdminInput] = useState(false);
-  const setSignUpModal = useSetRecoilState(signUpModalState);
-  const setLoginModal = useSetRecoilState(loginModalState);
+  const [showPassword, setShowPassword] = useState(false); // show password inputted
+  const [showconfirmPassword, setShowconfirmPassword] = useState(false); // show confirm password inputted
+  const [showAdminPassword, setShowAdminPassword] = useState(false); // show admin password inputted
+  const [showAdminInput, setShowAdminInput] = useState(false); // show admin input field
+  const setSignUpModal = useSetRecoilState(signUpModalState); // sets sign up modal open or closed
+  const setLoginModal = useSetRecoilState(loginModalState); // sets login modal open or closed
 
   const handleSignUp = async (values: SignUpValues): Promise<void> => {
     try {
@@ -37,7 +37,7 @@ const SignUpBox = () => {
         admin: admin,
       });
 
-      setSignUpModal(false);
+      setSignUpModal(false); // closes sign up modal
 
       toast({
         title: `${signUpResponse.username} registered succesfully`,
@@ -47,7 +47,7 @@ const SignUpBox = () => {
         isClosable: true,
         position: 'top',
       });
-      setLoginModal(true);
+      setLoginModal(true); // and opens login modal so user can log in right away after sign up
     } catch (error) {
       toast({
         title: 'Registration failed',
@@ -185,6 +185,7 @@ const SignUpBox = () => {
               type="submit"
               colorScheme="teal"
               variant="outline"
+              name="signup"
               mt={4}
               w={'full'}
             >

@@ -6,19 +6,23 @@ import aws
 from sqlalchemy.sql import text
 
 def upload_image(path, description, size, created_by_id, environment):
+  # Check if user exists
   if not users.check_user(created_by_id, environment):
     return jsonify({"msg": "User not found"}), 400
   sql = text("INSERT INTO images (path, description, size, created_by_id) VALUES (:path, :description, :size, :created_by_id)")
 
+  # prod
   if environment == "prod":
     db.session.execute(sql, {"path": path, "description": description, "size": size, "created_by_id": created_by_id})
     db.session.commit()
+  # test
   else:
     testdb.session.execute(sql, {"path": path, "description": description, "size": size, "created_by_id": created_by_id})
     testdb.session.commit()
 
   return jsonify({"msg": "Image uploaded"}), 200
 
+# function that gets all images
 def get_images(environment):
   sql = text("SELECT * FROM images")
 
@@ -41,6 +45,8 @@ def get_images(environment):
 
   return result
 
+
+# gets id of the user that uploaded the picture
 def get_image_creator(id, environment):
   sql = text("SELECT created_by_id FROM images WHERE id = :id")
 
@@ -84,6 +90,7 @@ def delete_image(id, environment):
   return jsonify({"msg": "Image deleted"}), 200
 
 
+# checks if user is owner of the image
 def check_image_owner(image_id, username, environment):
   user_id = users.get_user_by_username(username, environment)[0]
 

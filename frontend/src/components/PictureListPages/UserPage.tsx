@@ -8,12 +8,13 @@ import { deletePicture } from '../../services/picService';
 import PictureListPage from './PictureListPage';
 
 const UserPage = () => {
-  const user = useRecoilValue(userState);
+  const user = useRecoilValue(userState); // logged in user
   const toast = useToast();
-  const allPictures = useRecoilValue(allPicturesState);
-  const [userPictures, setUserPictures] = useState([] as PictureFromServer[]);
-  const [isOpen, setIsOpen] = useState(false);
+  const allPictures = useRecoilValue(allPicturesState); // all pictures from server
+  const [userPictures, setUserPictures] = useState([] as PictureFromServer[]); // pictures of logged in user
+  const [isOpen, setIsOpen] = useState(false); // is the delete confirmation window open
 
+  // filters logged in users pictures from all pictures
   useEffect(() => {
     if (user.id !== 0) {
       const userPics = allPictures.filter(

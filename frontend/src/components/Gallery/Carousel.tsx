@@ -91,7 +91,6 @@ const Carousel = ({ pictures }: { pictures: PictureFromServer[] }) => {
                 backgroundSize="cover"
                 backgroundImage={`url(${pic.link})`}
               >
-                {/* This is the block you need to change, to customize the caption */}
                 <Container
                   size="container.lg"
                   height="600px"

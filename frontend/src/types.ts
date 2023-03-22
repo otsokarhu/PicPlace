@@ -111,6 +111,23 @@ export type SinglePictureProps = {
   handleDelete: (id: number) => void;
 };
 
+export type SearchBarProps = {
+  onSearch: (searchValue: string) => void;
+};
 
+export type event = {
+  target: {
+    value: string;
+  };
+};
+
+export type PictureListPageProps = {
+  name: string;
+  pictures: PictureFromServer[];
+  toggleWindowConfirm: () => void;
+  isOpen: boolean;
+  handleDelete: (id: number) => void;
+  page: 'admin' | 'user';
+};
 
 

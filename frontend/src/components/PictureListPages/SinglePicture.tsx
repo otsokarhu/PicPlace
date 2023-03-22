@@ -3,6 +3,7 @@ import { DeleteIcon } from '@chakra-ui/icons';
 import { SinglePictureProps } from '../../types';
 import WindowConfirm from '../Miscellaneous/WIndowConfirm';
 
+// This component is used to display a single picture in the user or admin page
 const SinglePicture = ({
   pic,
   toggleWindowConfirm,

@@ -7,7 +7,7 @@ import { deletePicture } from '../../services/picService';
 import PictureListPage from './PictureListPage';
 
 const AdminPage = () => {
-  const user = useRecoilValue(userState);
+  const user = useRecoilValue(userState); // logged in user
   const toast = useToast();
   const allPictures = useRecoilValue(allPicturesState);
   const [isOpen, setIsOpen] = useState(false);

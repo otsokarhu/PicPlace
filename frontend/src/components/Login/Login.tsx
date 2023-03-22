@@ -25,7 +25,7 @@ const Login = () => {
 
   const handleLogin = async (values: LoginValues): Promise<void> => {
     try {
-      const loggingIn = await login(values.username, values.password);
+      const loggingIn = await login(values.username, values.password); // logs in and returns the user object
       window.localStorage.setItem('loggedUser', JSON.stringify(loggingIn));
 
       setUser(() => ({
@@ -33,13 +33,13 @@ const Login = () => {
         username: loggingIn.username,
         token: loggingIn.access_token,
         admin: loggingIn.admin,
-      }));
+      })); // sets the user state
 
-      setLoginModal(false);
+      setLoginModal(false); // closes the login modal
 
       toast({
         title: 'Login successful',
-        description: 'Welcome back!',
+        description: `Welcome back! ${loggingIn.username}`,
         status: 'success',
         duration: 3000,
         isClosable: true,

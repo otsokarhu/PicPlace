@@ -18,12 +18,12 @@ const GalleryPage = () => {
     setIsModalOpen(!isModalOpen);
     resetUploadablePicture();
   };
-  const user = useRecoilValue(userState);
-  const pictures = useRecoilValue(allPicturesState);
+  const user = useRecoilValue(userState); // logged in user
+  const pictures = useRecoilValue(allPicturesState); // all pictures
 
   const handleSearch = () => {
     console.log('search');
-  };
+  }; // todo
 
   return (
     <Flex

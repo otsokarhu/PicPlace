@@ -88,4 +88,4 @@ def delete_multiple_files_from_s3(keys):
         print("Something Happened: ", e)
         return e
 
-    
+    return keys

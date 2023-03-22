@@ -31,6 +31,7 @@ const App = () => {
   const setAllPictures = useSetRecoilState(allPicturesState);
   const setLoginModal = useSetRecoilState(loginModalState);
 
+  // checks if user is logged in
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser');
     if (loggedUserJSON) {
@@ -45,6 +46,7 @@ const App = () => {
     }
   }, []);
 
+  // fetches all uploaded pictures from server
   useEffect(() => {
     if (user.token === '') {
       return;

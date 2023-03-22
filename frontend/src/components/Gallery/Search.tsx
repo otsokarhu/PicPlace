@@ -1,16 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Input, InputGroup, InputRightElement, Button } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
-
-type SearchBarProps = {
-  onSearch: (searchValue: string) => void;
-};
-
-type event = {
-  target: {
-    value: string;
-  };
-};
+import { SearchBarProps, event } from '../../types';
 
 const SearchBar = ({ onSearch }: SearchBarProps) => {
   const [searchValue, setSearchValue] = useState('');

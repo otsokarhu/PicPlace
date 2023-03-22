@@ -1,6 +1,6 @@
 from app import app
 from testapp import testapp
-from flask import render_template, request, session, jsonify, redirect
+from flask import request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import users
 import images
@@ -161,7 +161,7 @@ def delete_image(id):
 
     return jsonify({"msg": "Image deleted"}), 200
 
-@testapp.route("/test/reset", methods=["GET"])
+@testapp.route("/test/reset", methods=["POST"])
 def reset():
     users.delete_all_users()
     images.delete_all_images()

@@ -36,17 +36,17 @@ import AdminPage from '../PictureListPages/AdminPage';
 
 const NavBar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const flexColor = useColorModeValue('antiquewhite', 'lightgray');
+  const flexColor = useColorModeValue('antiquewhite', 'black');
   const buttonColor = useColorModeValue('white', 'black');
-  const [isOpen, setIsOpen] = useRecoilState(infoState);
-  const user = useRecoilValue(userState);
-  const [isLoginOpen, setIsLoginOpen] = useRecoilState(loginModalState);
-  const [isSignUpOpen, setIsSignUpOpen] = useRecoilState(signUpModalState);
-  const [isUserModalOpen, setIsUserModalOpen] = useRecoilState(userModalState);
+  const [isOpen, setIsOpen] = useRecoilState(infoState); // defines if info modal is open or closed
+  const user = useRecoilValue(userState); // logged in user
+  const [isLoginOpen, setIsLoginOpen] = useRecoilState(loginModalState); // defines if login modal is open or closed
+  const [isSignUpOpen, setIsSignUpOpen] = useRecoilState(signUpModalState); // defines if signup modal is open or closed
+  const [isUserModalOpen, setIsUserModalOpen] = useRecoilState(userModalState); // defines if user modal is open or closed
   const [isAdminModalOpen, setIsAdminModalOpen] =
-    useRecoilState(adminModalState);
-  const resetPictures = useResetRecoilState(allPicturesState);
-  const resetUser = useResetRecoilState(userState);
+    useRecoilState(adminModalState); // defines if admin modal is open or closed
+  const resetPictures = useResetRecoilState(allPicturesState); // resets allpictures state
+  const resetUser = useResetRecoilState(userState); // resets user state
 
   const toggleLoginModal = () => setIsLoginOpen(!isLoginOpen);
   const toggleSignUpModal = () => setIsSignUpOpen(!isSignUpOpen);
@@ -76,6 +76,7 @@ const NavBar = () => {
             spacing={'8px'}
             separator={<ChevronRightIcon color={'gray.500'} />}
           >
+            {/* Breadcrumbitems when user is not logged in */}
             <BreadcrumbItem>
               <Link href="/">
                 <Button aria-label="HomeButton" variant={'icon'}>
@@ -117,6 +118,7 @@ const NavBar = () => {
             spacing={'8px'}
             separator={<ChevronRightIcon color={'gray.500'} />}
           >
+            {/* Breadcrumbitems when user is logged in */}
             <BreadcrumbItem>
               <Link href="/">
                 <Button aria-label="HomeButton" variant={'icon'}>
@@ -175,6 +177,7 @@ const NavBar = () => {
           </Breadcrumb>
         )}
       </Center>
+      {/* button to toggle light/dark mode */}
 
       <Button
         onClick={toggleColorMode}
@@ -186,6 +189,7 @@ const NavBar = () => {
         {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
       </Button>
 
+      {/* all the modal elements */}
       <ModalElement
         onClose={toggleLoginModal}
         isOpen={isLoginOpen}
