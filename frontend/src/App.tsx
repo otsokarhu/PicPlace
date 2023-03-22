@@ -5,10 +5,15 @@ import NavBar from './components/NavBar';
 import Info from './components/Info';
 import GalleryPage from './components/Gallery';
 import { useEffect } from 'react';
-import { useSetRecoilState, useRecoilState, useResetRecoilState } from 'recoil';
+import {
+  useSetRecoilState,
+  useRecoilState,
+  useResetRecoilState,
+  useRecoilValue,
+} from 'recoil';
 import { userState } from './state/UserState';
 import { loginModalState } from './state/ModalState';
-import { allPicturesState } from './state/PicturesState';
+import { allPicturesState, uploadingPictureState } from './state/PicturesState';
 import { getAllPictures } from './services/picService';
 import { LoginResponse } from './types';
 import { getError } from './utils/utils';
@@ -22,7 +27,8 @@ const App = () => {
   const resetPictures = useResetRecoilState(allPicturesState);
   const toast = useToast();
   const [user, setUser] = useRecoilState(userState);
-  const [allPictures, setAllPictures] = useRecoilState(allPicturesState);
+  const uploadingPicture = useRecoilValue(uploadingPictureState);
+  const setAllPictures = useSetRecoilState(allPicturesState);
   const setLoginModal = useSetRecoilState(loginModalState);
 
   useEffect(() => {
@@ -66,7 +72,7 @@ const App = () => {
         }
       }
     })();
-  }, [user.token, allPictures]);
+  }, [user.token, uploadingPicture]);
 
   return (
     <Router>

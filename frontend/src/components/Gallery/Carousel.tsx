@@ -38,7 +38,7 @@ const Carousel = ({ pictures }: { pictures: PictureFromServer[] }) => {
           width={'60vw'}
           overflow={'hidden'}
           rounded={'lg'}
-          boxShadow={'lg'}
+          boxShadow={'2xl'}
           top={3}
         >
           {/* CSS files for react-slick */}
@@ -86,7 +86,7 @@ const Carousel = ({ pictures }: { pictures: PictureFromServer[] }) => {
                 key={id}
                 height={'6xl'}
                 position="relative"
-                backgroundPosition="center"
+                backgroundPosition="top"
                 backgroundRepeat="no-repeat"
                 backgroundSize="cover"
                 backgroundImage={`url(${pic.link})`}
@@ -105,7 +105,14 @@ const Carousel = ({ pictures }: { pictures: PictureFromServer[] }) => {
                     top="50%"
                     transform="translate(0, -50%)"
                   >
-                    <Heading fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}>
+                    <Heading
+                      fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}
+                      bgColor="rgba(0,0,0,0.5)"
+                      color="white"
+                      rounded="lg"
+                      textAlign={'center'}
+                      w={'full'}
+                    >
                       {pic.description}
                     </Heading>
                   </Stack>

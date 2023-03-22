@@ -62,6 +62,7 @@ const ImageDropzone = () => {
           position: 'top',
         });
         setUploadModal(false);
+        setUploadingPicture([]);
       } catch (error) {
         toast({
           title: 'Upload failed',
@@ -119,7 +120,7 @@ const ImageDropzone = () => {
                     <Icon color={'black'} as={CloseIcon} />
                   </Button>
                 </Flex>
-                <FormControl id="caption" isRequired>
+                <FormControl id="caption" isRequired marginBottom={4}>
                   <FormLabel>Caption</FormLabel>
                   <Input
                     type="text"
