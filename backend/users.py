@@ -19,7 +19,7 @@ jwt = JWTManager(testapp)
 def register(username, password, admin, environment):
     hash_value = generate_password_hash(password) 
 
-    if check_username(username):
+    if check_username(username, environment):
       return jsonify({"msg": "Username already taken"}), 400
 
     sql = text(
@@ -109,4 +109,8 @@ def check_if_admin(username, environment):
     return testdb.session.execute(sql, {"username": username}).fetchone()[0]
 
 
-
+def delete_all_users():
+  sql = text("DELETE FROM users")
+  testdb.session.execute(sql)
+  testdb.session.commit()
+  

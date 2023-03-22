@@ -81,7 +81,7 @@ def upload_file():
         return "Please select a file"
 
     if file:
-        output = aws.upload_file_to_s3(file)
+        output = aws.upload_file_to_s3(file, environment)
         images.upload_image(output, description, size, created_by_id, environment)
         return str(output)
 
@@ -105,7 +105,7 @@ def upload_file():
         return "Please select a file"
 
     if file:
-        output = aws.upload_file_to_s3(file)
+        output = aws.upload_file_to_s3(file, environment)
         images.upload_image(output, description, size, created_by_id, environment)
         return str(output)
 
@@ -161,9 +161,13 @@ def delete_image(id):
 
     return jsonify({"msg": "Image deleted"}), 200
 
-@testapp.route("/test", methods=["GET"])
-def index():
-    return "<b>Tervetuloa</b> <i>sovellukseen</i>!"
+@testapp.route("/test/reset", methods=["GET"])
+def reset():
+    users.delete_all_users()
+    images.delete_all_images()
+    return jsonify({"msg": "All users and images deleted"}), 200
+
+
 
 
 

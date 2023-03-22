@@ -79,7 +79,7 @@ def delete_image(id, environment):
 
     testdb.session.commit()
 
-  aws.delete_file_from_s3(image_name)
+  aws.delete_file_from_s3(image_name, environment)
 
   return jsonify({"msg": "Image deleted"}), 200
 
@@ -90,7 +90,31 @@ def check_image_owner(image_id, username, environment):
   image = get_image_creator(image_id, environment)
 
   return image == user_id
+
+# no environment needed because this is only for testing
+def get_image_keys():
+    sql = text("SELECT path FROM images")
+    images = testdb.session.execute(sql).fetchall()
+
+    result = []
+
+    for row in images:
+        result.append({
+            'Key': row[0]
+        })
+
+    return result
     
+# no environment needed because this is only for testing
+def delete_all_images():
+  keys = get_image_keys()
+  if len(keys) == 0:
+    return 
+  sql = text("DELETE FROM images")
+  testdb.session.execute(sql)
+  testdb.session.commit()
+  aws.delete_multiple_files_from_s3(keys)
+  return 
 
 
 
