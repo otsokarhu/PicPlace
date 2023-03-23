@@ -13,7 +13,11 @@ import {
 } from 'recoil';
 import { userState } from './state/UserState';
 import { loginModalState } from './state/ModalState';
-import { allPicturesState, uploadingPictureState } from './state/PicturesState';
+import {
+  allPicturesState,
+  uploadingPictureState,
+  bingAllPictures,
+} from './state/PicturesState';
 import { getAllPictures } from './services/picService';
 import { LoginResponse } from './types';
 import { getError } from './utils/utils';
@@ -28,6 +32,7 @@ const App = () => {
   const toast = useToast();
   const [user, setUser] = useRecoilState(userState);
   const uploadingPicture = useRecoilValue(uploadingPictureState);
+  const bingUseEffect = useRecoilValue(bingAllPictures);
   const setAllPictures = useSetRecoilState(allPicturesState);
   const setLoginModal = useSetRecoilState(loginModalState);
 
@@ -74,7 +79,7 @@ const App = () => {
         }
       }
     })();
-  }, [user.token, uploadingPicture]);
+  }, [user.token, uploadingPicture, bingUseEffect]);
 
   return (
     <Router>

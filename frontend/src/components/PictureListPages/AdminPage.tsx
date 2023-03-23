@@ -1,13 +1,14 @@
 import { useToast } from '@chakra-ui/react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userState } from '../../state/UserState';
-import { allPicturesState } from '../../state/PicturesState';
+import { allPicturesState, bingAllPictures } from '../../state/PicturesState';
 import { useState } from 'react';
 import { deletePicture } from '../../services/picService';
 import PictureListPage from './PictureListPage';
 
 const AdminPage = () => {
   const user = useRecoilValue(userState); // logged in user
+  const bing = useSetRecoilState(bingAllPictures);
   const toast = useToast();
   const allPictures = useRecoilValue(allPicturesState);
   const [isOpen, setIsOpen] = useState(false);
@@ -26,7 +27,9 @@ const AdminPage = () => {
         status: 'success',
         duration: 3000,
         isClosable: true,
+        position: 'top',
       });
+      bing('binged');
     } catch (error) {
       console.log(error);
     }

@@ -15,6 +15,7 @@ const SinglePicture = ({
       <Image src={pic.link} alt={pic.description} w="300px" h="300px" m={2} />
       <Button
         colorScheme="red"
+        name="Delete Image"
         onClick={() => {
           toggleWindowConfirm();
         }}

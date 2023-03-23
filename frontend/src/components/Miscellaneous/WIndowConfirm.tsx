@@ -39,7 +39,12 @@ const WindowConfirm = ({
             <Button ref={cancelRef} onClick={onClose}>
               {cancelButtonText}
             </Button>
-            <Button colorScheme="red" onClick={onConfirm} ml={3}>
+            <Button
+              colorScheme="red"
+              onClick={onConfirm}
+              ml={3}
+              name="Confirm action"
+            >
               {confirmButtonText}
             </Button>
           </AlertDialogFooter>

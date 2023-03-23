@@ -40,6 +40,7 @@ const UserPage = () => {
         status: 'success',
         duration: 3000,
         isClosable: true,
+        position: 'top',
       });
     } catch (error) {
       console.log(error);

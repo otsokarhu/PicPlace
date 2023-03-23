@@ -163,8 +163,8 @@ def delete_image(id):
 
 @testapp.route("/test/reset", methods=["POST"])
 def reset():
-    users.delete_all_users()
     images.delete_all_images()
+    users.delete_all_users()
     return jsonify({"msg": "All users and images deleted"}), 200
 
 

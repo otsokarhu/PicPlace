@@ -88,7 +88,8 @@ const ImageDropzone = () => {
           {...getRootProps()}
           bg={isDragActive ? 'gray.50' : 'white'}
         >
-          <input
+          <Input
+            name="dropzone"
             {...getInputProps({
               accept: 'image/*',
               multiple: false,
@@ -131,7 +132,9 @@ const ImageDropzone = () => {
                   />
                   {errors.caption && touched.caption && <p>{errors.caption}</p>}
                 </FormControl>
-                <Button type="submit">Upload</Button>
+                <Button type="submit" name="Upload">
+                  Upload
+                </Button>
               </Flex>
             </Form>
           )}
