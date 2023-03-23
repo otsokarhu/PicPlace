@@ -13,11 +13,8 @@ import {
 } from 'recoil';
 import { userState } from './state/UserState';
 import { loginModalState } from './state/ModalState';
-import {
-  allPicturesState,
-  uploadingPictureState,
-  bingAllPictures,
-} from './state/PicturesState';
+import { allPicturesState, uploadingPictureState } from './state/PicturesState';
+import { bingAllPictures } from './state/MiscellaneousStates';
 import { getAllPictures } from './services/picService';
 import { LoginResponse } from './types';
 import { getError } from './utils/utils';

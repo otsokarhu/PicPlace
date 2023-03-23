@@ -28,9 +28,11 @@ export const uploadPicture = async (
   file: FileWithPath,
   size: string,
   description: string,
-  user_id: number
+  user_id: number,
+  setUploadingSpinner: (value: boolean) => void
 ) => {
   try {
+    setUploadingSpinner(true);
     const formData = new FormData();
     formData.append('file', file);
     formData.append('size', size);
@@ -48,6 +50,7 @@ export const uploadPicture = async (
       formData,
       config
     );
+    setUploadingSpinner(false);
     return response.data;
   } catch (error) {
     console.log(error);

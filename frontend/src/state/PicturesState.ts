@@ -13,8 +13,5 @@ export const uploadingPictureState = atom({
   default: [] as FileWithPath[],
 });
 
-export const bingAllPictures = atom({
-  key: 'bingAllPictures',
-  default: ''
-});
+
 

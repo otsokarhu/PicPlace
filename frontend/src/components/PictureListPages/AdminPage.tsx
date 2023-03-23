@@ -1,7 +1,8 @@
 import { useToast } from '@chakra-ui/react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userState } from '../../state/UserState';
-import { allPicturesState, bingAllPictures } from '../../state/PicturesState';
+import { allPicturesState } from '../../state/PicturesState';
+import { bingAllPictures } from '../../state/MiscellaneousStates';
 import { useState } from 'react';
 import { deletePicture } from '../../services/picService';
 import PictureListPage from './PictureListPage';

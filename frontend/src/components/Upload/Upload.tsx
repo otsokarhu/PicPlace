@@ -1,4 +1,5 @@
 import { FileWithPath, useDropzone } from 'react-dropzone';
+import { useState } from 'react';
 import {
   Box,
   Button,
@@ -23,6 +24,7 @@ import { CaptionValidation } from '../../types';
 const ImageDropzone = () => {
   const [picture, setUploadingPicture] = useRecoilState(uploadingPictureState);
   const setUploadModal = useSetRecoilState(uploadModalState);
+  const [spinner, setSpinner] = useState(false);
   const user = useRecoilValue(userState);
   const toast = useToast();
   const { acceptedFiles, getRootProps, getInputProps, isDragActive } =
@@ -51,7 +53,8 @@ const ImageDropzone = () => {
           image,
           `${image.size}bytes`,
           caption,
-          user.id
+          user.id,
+          setSpinner
         );
         toast({
           title: 'Upload successful',
@@ -132,7 +135,7 @@ const ImageDropzone = () => {
                   />
                   {errors.caption && touched.caption && <p>{errors.caption}</p>}
                 </FormControl>
-                <Button type="submit" name="Upload">
+                <Button type="submit" name="Upload" isLoading={spinner}>
                   Upload
                 </Button>
               </Flex>
