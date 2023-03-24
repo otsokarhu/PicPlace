@@ -131,7 +131,7 @@ describe('PicPlace', () => {
         cy.contains('Gallery').click();
         cy.url().should('include', '/gallery');
         cy.contains('Upload a picture').click();
-        cy.contains('files').selectFile('cypress/fixtures/example.json', { action: 'drag-drop'})
+        cy.contains('image').selectFile('cypress/fixtures/example.json', { action: 'drag-drop'})
         cy.should('not.contain', 'Upload') // the dropzone doesn't allow anything other to be dropped than images
       });
 
@@ -199,7 +199,7 @@ describe('PicPlace', () => {
         cy.contains('Picture deleted')
         cy.contains('There are no pictures uploaded to PicPlace yet')
       });
-      it.only('can not delete other users images without admin rights', () => {
+      it('can not delete other users images without admin rights', () => {
         cy.login('testiadmin', 'testi123');
         cy.contains('Login successful')
         cy.upload('HS.jpg', 'Helsingin suunnistajat')
@@ -207,7 +207,6 @@ describe('PicPlace', () => {
         cy.contains('Upload successful');
         cy.contains('Logout').click()
         cy.login('testi', 'testi123')
-        //cy.contains('Admin Page').should('be.undefined') fix this
         cy.contains('testi').click() // to user's page
         cy.contains('You have not uploaded any pictures yet') // doesn't show other users photos
       });

@@ -37,14 +37,4 @@ Database:
 -PostgreSQL
 
 
-## to do:
-  -front page box with link to gallery
-  -correct info when file is not accepted
-  -error toasts more
-
-  ## test
-  -tests one thing to fix and maybe some more
-  -admin signup test (cypress env variables)
-
-
 

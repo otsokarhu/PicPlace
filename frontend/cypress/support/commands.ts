@@ -27,7 +27,7 @@ Cypress.Commands.add(
     cy.contains('Gallery').click();
     cy.url().should('include', '/gallery');
     cy.contains('Upload a picture').click();
-    cy.contains('files').selectFile(`cypress/fixtures/${filename}`, { action: 'drag-drop'})
+    cy.contains('image').selectFile(`cypress/fixtures/${filename}`, { action: 'drag-drop'})
     cy.get('input[name="caption"]').type(caption);
     cy.get('button[name="Upload"]').click();
   }
