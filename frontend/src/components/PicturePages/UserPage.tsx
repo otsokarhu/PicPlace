@@ -1,18 +1,24 @@
 import { useToast } from '@chakra-ui/react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { userState } from '../../state/UserState';
 import { allPicturesState } from '../../state/PicturesState';
 import { useState, useEffect } from 'react';
 import { PictureFromServer } from '../../types';
 import { deletePicture } from '../../services/picService';
 import PictureListPage from './PictureListPage';
+import { getError } from '../../utils/utils';
+import { loginModalState } from '../../state/ModalState';
 
+// component for user modal
 const UserPage = () => {
   const user = useRecoilValue(userState); // logged in user
   const toast = useToast();
   const allPictures = useRecoilValue(allPicturesState); // all pictures from server
   const [userPictures, setUserPictures] = useState([] as PictureFromServer[]); // pictures of logged in user
   const [isOpen, setIsOpen] = useState(false); // is the delete confirmation window open
+  const resetUser = useResetRecoilState(userState); // resets user state
+  const resetPictures = useResetRecoilState(allPicturesState); // resets pictures state
+  const setLoginModal = useSetRecoilState(loginModalState); // sets login modal to true
 
   // filters logged in users pictures from all pictures
   useEffect(() => {
@@ -43,7 +49,30 @@ const UserPage = () => {
         position: 'top',
       });
     } catch (error) {
-      console.log(error);
+      const errorMessage = getError(error);
+      if (errorMessage.includes('401')) {
+        // jwt expired
+        toast({
+          title: 'Session expired',
+          description: 'Please log in again',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+        resetUser();
+        resetPictures();
+        window.localStorage.removeItem('loggedUser');
+        setLoginModal(true);
+        return;
+      }
+      toast({
+        // other error
+        title: 'Error',
+        description: errorMessage,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 

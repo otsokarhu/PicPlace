@@ -17,6 +17,7 @@ import { userState } from '../../state/UserState';
 import { login } from '../../services/loginService';
 import { loginModalState } from '../../state/ModalState';
 
+// Login form component for the login modal
 const Login = () => {
   const toast = useToast();
   const [showPassword, setShowPassword] = useState(false);

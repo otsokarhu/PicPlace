@@ -16,6 +16,7 @@ import { event } from '../../types';
 import SearchResults from '../PicturePages/SearchResultPage';
 import ModalElement from '../Modal';
 
+// Search bar component which also handles the search functionality and displays the results
 const SearchBar = () => {
   const [searchValue, setSearchValue] = useState('');
   const setSearchResults = useSetRecoilState(searchResultsState);
@@ -32,7 +33,7 @@ const SearchBar = () => {
       ({ path, description }) =>
         path.toLowerCase().includes(searchValue.toLowerCase()) ||
         description.toLowerCase().includes(searchValue.toLowerCase())
-    );
+    ); // filters the pictures based on the search value
     if (results.length === 0) {
       toast({
         title: 'No results found',

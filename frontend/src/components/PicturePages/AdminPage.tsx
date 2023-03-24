@@ -1,18 +1,24 @@
 import { useToast } from '@chakra-ui/react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { userState } from '../../state/UserState';
 import { allPicturesState } from '../../state/PicturesState';
 import { bingAllPictures } from '../../state/MiscellaneousStates';
 import { useState } from 'react';
 import { deletePicture } from '../../services/picService';
 import PictureListPage from './PictureListPage';
+import { getError } from '../../utils/utils';
+import { loginModalState } from '../../state/ModalState';
 
+// component for admin modal
 const AdminPage = () => {
   const user = useRecoilValue(userState); // logged in user
-  const bing = useSetRecoilState(bingAllPictures);
+  const bing = useSetRecoilState(bingAllPictures); // used to fetch all pictures after deleting one
   const toast = useToast();
   const allPictures = useRecoilValue(allPicturesState);
   const [isOpen, setIsOpen] = useState(false);
+  const resetUser = useResetRecoilState(userState);
+  const resetPictures = useResetRecoilState(allPicturesState);
+  const setLoginModal = useSetRecoilState(loginModalState);
 
   const toggleWindowConfirm = () => {
     setIsOpen(!isOpen);
@@ -32,7 +38,30 @@ const AdminPage = () => {
       });
       bing('binged');
     } catch (error) {
-      console.log(error);
+      const errorMessage = getError(error);
+      if (errorMessage.includes('401')) {
+        // jwt expired
+        toast({
+          title: 'Session expired',
+          description: 'Please log in again',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+        resetUser();
+        resetPictures();
+        window.localStorage.removeItem('loggedUser');
+        setLoginModal(true);
+        return;
+      }
+      toast({
+        // other error
+        title: 'Error',
+        description: errorMessage,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
     }
   };
 

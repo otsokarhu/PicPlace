@@ -12,6 +12,7 @@ import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
 import Slider from 'react-slick';
 import { PictureFromServer } from '../../types';
 
+// This component is used to display a carousel of pictures on gallery page.
 const Carousel = ({ pictures }: { pictures: PictureFromServer[] }) => {
   const settings = {
     dots: true,

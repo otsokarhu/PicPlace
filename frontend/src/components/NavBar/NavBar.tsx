@@ -38,7 +38,7 @@ const NavBar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const flexColor = useColorModeValue('antiquewhite', 'black');
   const buttonColor = useColorModeValue('white', 'black');
-  const [isOpen, setIsOpen] = useRecoilState(infoState); // defines if info modal is open or closed
+  const [isInfoOpen, setInfoIsOpen] = useRecoilState(infoState); // defines if info modal is open or closed
   const user = useRecoilValue(userState); // logged in user
   const [isLoginOpen, setIsLoginOpen] = useRecoilState(loginModalState); // defines if login modal is open or closed
   const [isSignUpOpen, setIsSignUpOpen] = useRecoilState(signUpModalState); // defines if signup modal is open or closed
@@ -48,11 +48,6 @@ const NavBar = () => {
   const resetPictures = useResetRecoilState(allPicturesState); // resets allpictures state
   const resetUser = useResetRecoilState(userState); // resets user state
 
-  const toggleLoginModal = () => setIsLoginOpen(!isLoginOpen);
-  const toggleSignUpModal = () => setIsSignUpOpen(!isSignUpOpen);
-  const toggleUserInfoModal = () => setIsUserModalOpen(!isUserModalOpen);
-  const toggleAdminInfoModal = () => setIsAdminModalOpen(!isAdminModalOpen);
-  const toggleInfo = () => setIsOpen(!isOpen);
   const handleLogOut = () => {
     resetPictures();
     resetUser();
@@ -87,7 +82,7 @@ const NavBar = () => {
             <BreadcrumbItem>
               <Button
                 aria-label="openLoginModal"
-                onClick={toggleLoginModal}
+                onClick={() => setIsLoginOpen(!isLoginOpen)}
                 variant={'icon'}
               >
                 Login
@@ -96,7 +91,7 @@ const NavBar = () => {
             <BreadcrumbItem>
               <Button
                 aria-label="openSignUpModal"
-                onClick={toggleSignUpModal}
+                onClick={() => setIsSignUpOpen(!isSignUpOpen)}
                 variant={'icon'}
               >
                 Sign Up
@@ -105,7 +100,7 @@ const NavBar = () => {
             <BreadcrumbItem>
               <Button
                 aria-label="InfoButton"
-                onClick={toggleInfo}
+                onClick={() => setInfoIsOpen(!isInfoOpen)}
                 variant={'icon'}
               >
                 <InfoIcon boxSize={7} />
@@ -147,7 +142,7 @@ const NavBar = () => {
             <BreadcrumbItem>
               <Button
                 aria-label="openUserInfoModal"
-                onClick={toggleUserInfoModal}
+                onClick={() => setIsUserModalOpen(!isUserModalOpen)}
                 variant={'icon'}
               >
                 {user.username}
@@ -157,7 +152,7 @@ const NavBar = () => {
               <BreadcrumbItem>
                 <Button
                   aria-label="openAdminInfoModal"
-                  onClick={toggleAdminInfoModal}
+                  onClick={() => setIsAdminModalOpen(!isAdminModalOpen)}
                   variant={'icon'}
                 >
                   Admin Page
@@ -168,7 +163,7 @@ const NavBar = () => {
             <BreadcrumbItem>
               <Button
                 aria-label="InfoButton"
-                onClick={toggleInfo}
+                onClick={() => setInfoIsOpen(!isInfoOpen)}
                 variant={'icon'}
               >
                 <InfoIcon boxSize={7} />
@@ -191,28 +186,28 @@ const NavBar = () => {
 
       {/* all the modal elements */}
       <ModalElement
-        onClose={toggleLoginModal}
+        onClose={() => setIsLoginOpen(!isLoginOpen)}
         isOpen={isLoginOpen}
         title={'Login'}
         component={<LoginBox />}
       />
 
       <ModalElement
-        onClose={toggleSignUpModal}
+        onClose={() => setIsSignUpOpen(!isSignUpOpen)}
         isOpen={isSignUpOpen}
         title={'Sign Up'}
         component={<SignUpBox />}
       />
 
       <ModalElement
-        onClose={toggleUserInfoModal}
+        onClose={() => setIsUserModalOpen(!isUserModalOpen)}
         isOpen={isUserModalOpen}
         title={'User Info'}
         component={<UserPage />}
       />
 
       <ModalElement
-        onClose={toggleAdminInfoModal}
+        onClose={() => setIsAdminModalOpen(!isAdminModalOpen)}
         isOpen={isAdminModalOpen}
         title={'Admin Page'}
         component={<AdminPage />}

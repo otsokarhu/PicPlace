@@ -2,6 +2,7 @@ import { searchResultsState } from '../../state/PicturesState';
 import { useRecoilValue } from 'recoil';
 import PictureListPage from './PictureListPage';
 
+// component to display search results
 const SearchResults = () => {
   const pictures = useRecoilValue(searchResultsState);
 

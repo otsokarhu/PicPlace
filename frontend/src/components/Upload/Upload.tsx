@@ -12,21 +12,35 @@ import {
   Input,
 } from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { uploadingPictureState } from '../../state/PicturesState';
+import {
+  useRecoilState,
+  useRecoilValue,
+  useResetRecoilState,
+  useSetRecoilState,
+} from 'recoil';
+import {
+  allPicturesState,
+  uploadingPictureState,
+} from '../../state/PicturesState';
 import { userState } from '../../state/UserState';
-import { uploadModalState } from '../../state/ModalState';
+import { loginModalState, uploadModalState } from '../../state/ModalState';
 import { useEffect } from 'react';
 import { Form, Formik } from 'formik';
 import { uploadPicture } from '../../services/picService';
 import { CaptionValidation } from '../../types';
+import { getError } from '../../utils/utils';
 
+// This component is used to upload a picture to the server
 const ImageDropzone = () => {
   const [picture, setUploadingPicture] = useRecoilState(uploadingPictureState);
   const setUploadModal = useSetRecoilState(uploadModalState);
   const [spinner, setSpinner] = useState(false);
   const user = useRecoilValue(userState);
   const toast = useToast();
+  const resetUser = useResetRecoilState(userState); // resets user state
+  const resetPictures = useResetRecoilState(allPicturesState); // resets pictures state
+  const setLoginModal = useSetRecoilState(loginModalState); // sets login modal to true
+
   const { acceptedFiles, getRootProps, getInputProps, isDragActive } =
     useDropzone({
       accept: {
@@ -67,9 +81,26 @@ const ImageDropzone = () => {
         setUploadModal(false);
         setUploadingPicture([]);
       } catch (error) {
+        const errorMessage = getError(error);
+        if (errorMessage.includes('401')) {
+          // jwt expired
+          toast({
+            title: 'Session expired',
+            description: 'Please log in again',
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+          });
+          resetUser();
+          resetPictures();
+          window.localStorage.removeItem('loggedUser');
+          setLoginModal(true);
+          return;
+        }
         toast({
+          // other error
           title: 'Upload failed',
-          description: 'Check your file',
+          description: 'Check your file or try again',
           status: 'error',
           duration: 3000,
           isClosable: true,
@@ -99,9 +130,16 @@ const ImageDropzone = () => {
             })}
           />
           {isDragActive ? (
-            <p>Drop the files here ...</p>
+            <Text>Drop the files here ...</Text>
           ) : (
-            <p>Drag 'n' drop some files here, or click to select files</p>
+            <Text>
+              Drag 'n' drop your image here, or click to select image <br />
+              <Text as="span" fontSize="sm">
+                (max 1MB)
+                <br />
+                (accepted formats: .png, .jpg, .jpeg, .gif, .svg, .webp, .bmp)
+              </Text>
+            </Text>
           )}
         </Box>
       ) : (

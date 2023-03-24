@@ -10,6 +10,7 @@ import { useRecoilState } from 'recoil';
 import { infoState } from '../../state/Infostate';
 import { ArrowUpIcon } from '@chakra-ui/icons';
 
+// info component for info modal
 const Info = () => {
   const flexBg = useColorModeValue('antiquewhite', 'lightgray');
   const textColor = useColorModeValue('gray.500', 'whitesmoke');

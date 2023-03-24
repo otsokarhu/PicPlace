@@ -7,6 +7,7 @@ import ModalElement from '../Modal';
 import { useState } from 'react';
 import { PictureFromServer } from '../../types';
 
+// This component is used to display all the uploaded pictures
 const AllPictures = () => {
   const allPictures = useRecoilValue(allPicturesState);
   const user = useRecoilValue(userState);

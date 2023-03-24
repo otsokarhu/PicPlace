@@ -16,6 +16,7 @@ import { signUp } from '../../services/userService';
 import { useSetRecoilState } from 'recoil';
 import { loginModalState, signUpModalState } from '../../state/ModalState';
 
+// component for sign up modal
 const SignUpBox = () => {
   const toast = useToast();
   const [showPassword, setShowPassword] = useState(false); // show password inputted
