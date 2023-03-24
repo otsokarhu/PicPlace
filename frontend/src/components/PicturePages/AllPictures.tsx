@@ -3,11 +3,21 @@ import { useRecoilValue } from 'recoil';
 import { allPicturesState } from '../../state/PicturesState';
 import { userState } from '../../state/UserState';
 import { useColorModeValue } from '@chakra-ui/color-mode';
+import ModalElement from '../Modal';
+import { useState } from 'react';
+import { PictureFromServer } from '../../types';
 
 const AllPictures = () => {
   const allPictures = useRecoilValue(allPicturesState);
   const user = useRecoilValue(userState);
   const boxBg = useColorModeValue('whitesmoke', 'dimgray');
+  const [isOpen, setIsOpen] = useState(false);
+  const [picture, setPicture] = useState<PictureFromServer>(allPictures[0]);
+
+  const handleOpen = (id: number) => {
+    setIsOpen(true);
+    setPicture(allPictures.find((pic) => pic.id === id) as PictureFromServer);
+  };
 
   return (
     <Flex
@@ -17,6 +27,12 @@ const AllPictures = () => {
       direction={'column'}
       marginTop={2}
     >
+      <ModalElement
+        isOpen={isOpen}
+        title={picture.description}
+        onClose={() => setIsOpen(false)}
+        component={<Image src={picture.link} alt={picture.description} m={2} />}
+      />
       <Heading>All pictures uploaded to PicPlace:</Heading>
       {user.id !== 0 ? (
         <>
@@ -43,6 +59,7 @@ const AllPictures = () => {
                     <Image
                       src={pic.link}
                       alt={pic.description}
+                      onClick={() => handleOpen(pic.id)}
                       h={'15vh'}
                       w={'15vw'}
                       borderRadius="lg"

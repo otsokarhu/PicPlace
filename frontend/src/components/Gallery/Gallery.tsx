@@ -33,12 +33,17 @@ const GalleryPage = () => {
       {user.id !== 0 ? (
         <>
           <Carousel pictures={pictures} />
-          <Link as={RouterLink} to={'/gallery/all-pictures'}>
-            <Button>See all pictures</Button>
-          </Link>
+
           <Heading>Search for pictures</Heading>
           <SearchBar />
-          <Button onClick={toggleModal}>Upload a picture</Button>
+          <Flex justify={'center'} align={'center'} direction={'row'}>
+            <Button marginRight={3} onClick={toggleModal}>
+              Upload a picture
+            </Button>
+            <Link as={RouterLink} to={'/gallery/all-pictures'}>
+              <Button>See all pictures</Button>
+            </Link>
+          </Flex>
           <ModalElement
             onClose={toggleModal}
             isOpen={isModalOpen}
