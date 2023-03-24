@@ -1,4 +1,4 @@
-import { Button, Flex, Heading, Text } from '@chakra-ui/react';
+import { Button, Flex, Heading, Text, Link } from '@chakra-ui/react';
 import SearchBar from './Search';
 import { userState } from '../../state/UserState';
 import {
@@ -10,6 +10,7 @@ import { useResetRecoilState, useRecoilValue, useRecoilState } from 'recoil';
 import ImageDropzone from '../Upload';
 import ModalElement from '../Modal';
 import Carousel from './Carousel';
+import { Link as RouterLink } from 'react-router-dom';
 
 const GalleryPage = () => {
   const resetUploadablePicture = useResetRecoilState(uploadingPictureState);
@@ -20,10 +21,6 @@ const GalleryPage = () => {
   };
   const user = useRecoilValue(userState); // logged in user
   const pictures = useRecoilValue(allPicturesState); // all pictures
-
-  const handleSearch = () => {
-    console.log('search');
-  }; // todo
 
   return (
     <Flex
@@ -36,8 +33,11 @@ const GalleryPage = () => {
       {user.id !== 0 ? (
         <>
           <Carousel pictures={pictures} />
+          <Link as={RouterLink} to={'/gallery/all-pictures'}>
+            <Button>See all pictures</Button>
+          </Link>
           <Heading>Search for pictures</Heading>
-          <SearchBar onSearch={handleSearch} />
+          <SearchBar />
           <Button onClick={toggleModal}>Upload a picture</Button>
           <ModalElement
             onClose={toggleModal}

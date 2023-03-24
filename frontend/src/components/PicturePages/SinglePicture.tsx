@@ -1,28 +1,34 @@
-import { Image, Button, Icon, Flex } from '@chakra-ui/react';
+import { Image, Button, Icon, Flex, Text } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 import { SinglePictureProps } from '../../types';
 import WindowConfirm from '../Miscellaneous/WIndowConfirm';
 
-// This component is used to display a single picture in the user or admin page
+// This component is used to display a single picture in PictureListPages-component.
 const SinglePicture = ({
   pic,
   toggleWindowConfirm,
   isOpen,
   handleDelete,
+  showDeleteButton,
 }: SinglePictureProps) => {
   return (
     <Flex direction="row" align="center">
-      <Image src={pic.link} alt={pic.description} w="300px" h="300px" m={2} />
-      <Button
-        colorScheme="red"
-        name="Delete Image"
-        onClick={() => {
-          toggleWindowConfirm();
-        }}
-        m={2}
-      >
-        <Icon as={DeleteIcon} />
-      </Button>
+      <Flex direction="column" align="center">
+        <Image src={pic.link} alt={pic.description} w="300px" h="300px" m={2} />
+        <Text>{pic.description}</Text>
+      </Flex>
+      {showDeleteButton && (
+        <Button
+          colorScheme="red"
+          name="Delete Image"
+          onClick={() => {
+            toggleWindowConfirm();
+          }}
+          m={2}
+        >
+          <Icon as={DeleteIcon} />
+        </Button>
+      )}
       <WindowConfirm
         isOpen={isOpen}
         onClose={toggleWindowConfirm}

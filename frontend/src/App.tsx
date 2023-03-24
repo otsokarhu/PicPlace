@@ -18,6 +18,7 @@ import { bingAllPictures } from './state/MiscellaneousStates';
 import { getAllPictures } from './services/picService';
 import { LoginResponse } from './types';
 import { getError } from './utils/utils';
+import AllPictures from './components/PicturePages/AllPictures';
 
 const App = () => {
   const bgColor = useColorModeValue(
@@ -81,11 +82,13 @@ const App = () => {
   return (
     <Router>
       <Box
-        bgGradient={bgColor}
-        minH="100vh"
-        minW="100vw"
+        background={bgColor}
+        h="100vh"
+        w="100vw"
         position="relative"
-        bgSize={'cover'}
+        backgroundAttachment={'fixed'}
+        backgroundPosition={'center'}
+        backgroundRepeat={'no-repeat'}
       >
         <NavBar />
         <Box zIndex={10} top={'50px'} position={'sticky'}>
@@ -97,6 +100,7 @@ const App = () => {
         <Routes>
           <Route path="*" element={<Home />} />
           <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/gallery/all-pictures" element={<AllPictures />} />
         </Routes>
       </Box>
     </Router>

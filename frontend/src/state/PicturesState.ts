@@ -13,5 +13,8 @@ export const uploadingPictureState = atom({
   default: [] as FileWithPath[],
 });
 
-
+export const searchResultsState = atom<PictureFromServer[]>({
+  key: 'searchResultsState',
+  default: [],
+});
 

@@ -17,7 +17,12 @@ const ModalElement = ({
   onClose,
 }: ModalElementProps) => {
   return (
-    <Modal isCentered isOpen={isOpen} onClose={onClose}>
+    <Modal
+      isCentered
+      isOpen={isOpen}
+      onClose={onClose}
+      scrollBehavior={'inside'}
+    >
       <ModalOverlay
         bg="blackAlpha.300"
         backdropFilter="blur(10px) hue-rotate(90deg)"

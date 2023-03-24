@@ -31,8 +31,8 @@ import {
   adminModalState,
 } from '../../state/ModalState';
 import { Link as RouterLink } from 'react-router-dom';
-import UserPage from '../PictureListPages/UserPage';
-import AdminPage from '../PictureListPages/AdminPage';
+import UserPage from '../PicturePages/UserPage';
+import AdminPage from '../PicturePages/AdminPage';
 
 const NavBar = () => {
   const { colorMode, toggleColorMode } = useColorMode();

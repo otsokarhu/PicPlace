@@ -2,6 +2,7 @@ import { Flex, Heading, Text } from '@chakra-ui/react';
 import { PictureListPageProps } from '../../types';
 import SinglePicture from './SinglePicture';
 
+// component that displays the pictures in the user, admin page, or search page
 const PictureListPage = ({
   name,
   pictures,
@@ -19,18 +20,30 @@ const PictureListPage = ({
           many: `There are ${pictures.length} pictures uploaded`,
           text: 'Here are all the pictures uploaded to PicPlace:',
           none: 'There are no pictures uploaded to PicPlace yet',
+          welcome_text: 'Hi, Admin!',
         };
-      default:
+      case 'user':
         return {
           one: 'You have uploaded 1 picture',
           many: `You have uploaded ${pictures.length} pictures`,
           text: 'Here are your pictures:',
           none: 'You have not uploaded any pictures yet',
+          welcome_text: `Hi, ${name}!`,
+        };
+      default:
+        return {
+          one: 'Your search returned 1 picture',
+          many: `Your search returned ${pictures.length} pictures`,
+          text: 'Here are the pictures that matched your search:',
+          none: 'Your search did not return any pictures',
+          welcome_text: 'Search results',
         };
     }
   };
 
-  const { one, many, text, none } = texts();
+  const { one, many, text, none, welcome_text } = texts();
+
+  const showDeleteButton = page === 'admin' || page === 'user';
 
   return (
     <Flex
@@ -42,7 +55,7 @@ const PictureListPage = ({
       p={4}
     >
       <Heading size="2xl" mb={4}>
-        Hi, {name}!
+        {welcome_text}
       </Heading>
       {pictures.length > 0 ? (
         <>
@@ -64,6 +77,7 @@ const PictureListPage = ({
                 toggleWindowConfirm={toggleWindowConfirm}
                 isOpen={isOpen}
                 handleDelete={handleDelete}
+                showDeleteButton={showDeleteButton}
               />
             ))}
           </Flex>

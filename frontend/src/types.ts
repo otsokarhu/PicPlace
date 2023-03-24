@@ -109,6 +109,7 @@ export type SinglePictureProps = {
   toggleWindowConfirm: () => void;
   isOpen: boolean;
   handleDelete: (id: number) => void;
+  showDeleteButton: boolean;
 };
 
 export type SearchBarProps = {
@@ -127,7 +128,7 @@ export type PictureListPageProps = {
   toggleWindowConfirm: () => void;
   isOpen: boolean;
   handleDelete: (id: number) => void;
-  page: 'admin' | 'user';
+  page: 'admin' | 'user' | 'search' ;
 };
 
 
