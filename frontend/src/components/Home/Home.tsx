@@ -79,7 +79,7 @@ const Home = () => {
             {content().title}
           </Heading>
           {user.id !== 0 ? (
-            <Link as={RouterLink} to="teamPage" href="teamPage">
+            <Link as={RouterLink} to="/gallery" href="gallery">
               <Button
                 bg={buttonBg}
                 color={'white'}
